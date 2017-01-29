@@ -8,6 +8,8 @@ import ua.sernikov.domain.User;
 import ua.sernikov.domain.UserRole;
 import ua.sernikov.exception.UserAlreadyExistException;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -86,5 +88,36 @@ public class UserServiceTest {
     public void shouldThrowIllegalArgumentExceptionWhenEmailIsEmptyString() throws Exception {
         userService.createPublisher(TEST_NAME, "");
         userService.createOperator(TEST_NAME, "");
+    }
+
+    @Test
+    public void shouldGiveEmptyListWhenHasNoOperators() throws Exception {
+        userService.createPublisher(TEST_NAME, TEST_EMAIL);
+
+        List<User> operators = userService.getAllOperators();
+
+        assertThat(operators).isEmpty();
+    }
+
+    @Test
+    public void shouldGiveEmptyListWhenHasNoPublishers() throws Exception {
+        userService.createOperator(TEST_NAME, TEST_EMAIL);
+
+        List<User> publishers = userService.getAllPublishers();
+
+        assertThat(publishers).isEmpty();
+    }
+
+    @Test
+    public void shouldGiveAllOperators() throws Exception {
+        User operator1 = userService.createOperator(TEST_NAME, "test1@mail.com");
+        User operator2 = userService.createOperator(TEST_NAME, "test2@mail.com");
+        User publisher = userService.createPublisher(TEST_NAME, "test3@mail.com");
+
+        List<User> operators = userService.getAllOperators();
+
+        assertThat(operators).hasSize(2)
+                             .contains(operator1, operator2)
+                             .doesNotContain(publisher);
     }
 }

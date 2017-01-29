@@ -1,5 +1,8 @@
 package ua.sernikov.domain;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import java.util.Objects;
 
 public class User {
@@ -45,6 +48,16 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+                       .append("key", key)
+                       .append("name", name)
+                       .append("email", email)
+                       .append("role", role)
+                       .toString();
     }
 
     @Override

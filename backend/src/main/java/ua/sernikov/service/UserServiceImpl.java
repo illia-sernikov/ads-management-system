@@ -7,8 +7,10 @@ import ua.sernikov.domain.UserRole;
 import ua.sernikov.exception.UserAlreadyExistException;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,6 +25,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createPublisher(String name, String email) {
         return createUser(name, email, UserRole.PUBLISHER);
+    }
+
+    @Override
+    public List<User> getAllOperators() {
+        return users.values().stream()
+                    .filter(user -> user.getRole() == UserRole.OPERATOR)
+                    .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<User> getAllPublishers() {
+        return users.values().stream()
+                .filter(user -> user.getRole() == UserRole.PUBLISHER)
+                .collect(Collectors.toList());
     }
 
     private User createUser(String name, String email, UserRole role) {
