@@ -5,6 +5,7 @@ import org.springframework.util.Assert;
 import ua.sernikov.domain.User;
 import ua.sernikov.domain.UserRole;
 import ua.sernikov.exception.UserAlreadyExistException;
+import ua.sernikov.exception.UserNotFoundException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -57,6 +58,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public User removePublisherByKey(String publisherKey) {
         return removeUserByKey(publisherKey, UserRole.PUBLISHER);
+    }
+
+    @Override
+    public User updateOperator(User operator) {
+        Assert.notNull(operator);
+
+        if (!isUserExists(operator.getEmail())) {
+            throw new UserNotFoundException("Operator with email " + operator.getEmail() + " not found");
+        }
+
+        String operatorKey = operator.getKey();
+        return users.replace(operatorKey, operator);
     }
 
     private User createUser(String name, String email, UserRole role) {

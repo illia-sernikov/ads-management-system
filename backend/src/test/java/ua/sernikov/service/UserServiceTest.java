@@ -7,6 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import ua.sernikov.domain.User;
 import ua.sernikov.domain.UserRole;
 import ua.sernikov.exception.UserAlreadyExistException;
+import ua.sernikov.exception.UserNotFoundException;
 
 import java.util.List;
 import java.util.UUID;
@@ -248,5 +249,42 @@ public class UserServiceTest {
     public void shouldThrowIllegalArgumentExceptionWhenRemovePublisherByEmptyKey() throws Exception {
         userService.removePublisherByKey(null);
         userService.removePublisherByKey("");
+    }
+
+    @Test
+    public void shouldUpdateOnlyOperatorName() throws Exception {
+        String expectedName = "new test";
+        User operator = userService.createOperator(TEST_NAME, TEST_EMAIL);
+        operator.setName(expectedName);
+
+        User actualOperator = userService.updateOperator(operator);
+
+        assertThat(actualOperator).isNotNull()
+                                  .isEqualTo(operator);
+        assertThat(actualOperator.getName()).isEqualTo(expectedName);
+        assertThat(actualOperator.getEmail()).isEqualTo(TEST_EMAIL);
+    }
+
+    @Test
+    public void shouldNotCreateNewOperatorWhenUpdateExistingOperator() throws Exception {
+        User operator = userService.createOperator(TEST_NAME, TEST_EMAIL);
+        operator.setName("new name");
+
+        userService.updateOperator(operator);
+        List<User> operators = userService.getAllOperators();
+
+        assertThat(operators).hasSize(1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenUpdatedOperatorIsNull() throws Exception {
+        userService.updateOperator(null);
+    }
+
+    @Test(expected = UserNotFoundException.class)
+    public void shouldThrowUserNotFoundExceptionWhenUpdatedOperatorDoesNotExist() throws Exception {
+        User operator = new User(TEST_NAME, TEST_EMAIL, UserRole.OPERATOR);
+
+        userService.updateOperator(operator);
     }
 }
