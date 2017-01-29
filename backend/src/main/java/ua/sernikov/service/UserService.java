@@ -17,4 +17,6 @@ public interface UserService {
     User getOperatorByKey(String operatorKey);
 
     User getPublisherByKey(String publisherKey);
+
+    User removeOperatorByKey(String operatorKey);
 }

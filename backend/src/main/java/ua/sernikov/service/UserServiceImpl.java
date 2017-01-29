@@ -6,10 +6,7 @@ import ua.sernikov.domain.User;
 import ua.sernikov.domain.UserRole;
 import ua.sernikov.exception.UserAlreadyExistException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,24 +49,39 @@ public class UserServiceImpl implements UserService {
         return getUserByKey(publisherKey, UserRole.PUBLISHER);
     }
 
+    @Override
+    public User removeOperatorByKey(String operatorKey) {
+        validateKey(operatorKey);
+        return users.remove(operatorKey);
+    }
+
     private User createUser(String name, String email, UserRole role) {
         Assert.hasText(email, "Email should be specified");
 
-        if (users.containsKey(email)) {
+        if (isUserExists(email)) {
             throw new UserAlreadyExistException("User with email " + email + " is already exist");
         }
 
         User user = new User(name, email, role);
         user.setKey(UUID.randomUUID().toString());
 
-        users.put(email, user);
+        users.put(user.getKey(), user);
 
         return user;
     }
 
-    private User getUserByKey(String key, UserRole role) {
+    private boolean isUserExists(String email) {
+        return users.values().stream()
+                    .anyMatch(user -> Objects.equals(email, user.getEmail()));
+    }
+
+    private void validateKey(String key) {
         Assert.hasText(key, "'userKey' should be specified");
         Assert.isTrue(key.matches(uuidRegex), "'userKey' should be a UUID key");
+    }
+
+    private User getUserByKey(String key, UserRole role) {
+        validateKey(key);
 
         return users.values().stream()
                     .filter(user -> user.getRole() == role)
