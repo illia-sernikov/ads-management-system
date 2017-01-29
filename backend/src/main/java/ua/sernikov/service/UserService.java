@@ -23,4 +23,6 @@ public interface UserService {
     User removePublisherByKey(String publisherKey);
 
     User updateOperator(User operator);
+
+    User updatePublisher(User publisher);
 }

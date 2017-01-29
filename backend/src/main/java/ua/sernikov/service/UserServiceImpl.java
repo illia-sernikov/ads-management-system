@@ -62,14 +62,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateOperator(User operator) {
-        Assert.notNull(operator);
+        return updateUser(operator);
+    }
 
-        if (!isUserExists(operator.getEmail())) {
-            throw new UserNotFoundException("Operator with email " + operator.getEmail() + " not found");
-        }
-
-        String operatorKey = operator.getKey();
-        return users.replace(operatorKey, operator);
+    @Override
+    public User updatePublisher(User publisher) {
+        return updateUser(publisher);
     }
 
     private User createUser(String name, String email, UserRole role) {
@@ -110,5 +108,16 @@ public class UserServiceImpl implements UserService {
     private User removeUserByKey(String key, UserRole role) {
         validateKey(key);
         return users.remove(key);
+    }
+
+    private User updateUser(User user) {
+        Assert.notNull(user);
+
+        if (!isUserExists(user.getEmail())) {
+            throw new UserNotFoundException("User with email " + user.getEmail() + " not found");
+        }
+
+        String userKey = user.getKey();
+        return users.replace(userKey, user);
     }
 }

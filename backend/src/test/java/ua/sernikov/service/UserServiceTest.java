@@ -287,4 +287,41 @@ public class UserServiceTest {
 
         userService.updateOperator(operator);
     }
+
+    @Test
+    public void shouldUpdateOnlyPublisherName() throws Exception {
+        String expectedName = "new test";
+        User publisher = userService.createPublisher(TEST_NAME, TEST_EMAIL);
+        publisher.setName(expectedName);
+
+        User actualPublisher = userService.updatePublisher(publisher);
+
+        assertThat(actualPublisher).isNotNull()
+                                  .isEqualTo(publisher);
+        assertThat(actualPublisher.getName()).isEqualTo(expectedName);
+        assertThat(actualPublisher.getEmail()).isEqualTo(TEST_EMAIL);
+    }
+
+    @Test
+    public void shouldNotCreateNewPublisherWhenUpdateExistingPublisher() throws Exception {
+        User publisher = userService.createPublisher(TEST_NAME, TEST_EMAIL);
+        publisher.setName("new name");
+
+        userService.updatePublisher(publisher);
+        List<User> publishers = userService.getAllPublishers();
+
+        assertThat(publishers).hasSize(1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenUpdatedPublisherIsNull() throws Exception {
+        userService.updatePublisher(null);
+    }
+
+    @Test(expected = UserNotFoundException.class)
+    public void shouldThrowUserNotFoundExceptionWhenUpdatedPublisherDoesNotExist() throws Exception {
+        User publisher = new User(TEST_NAME, TEST_EMAIL, UserRole.PUBLISHER);
+
+        userService.updatePublisher(publisher);
+    }
 }
