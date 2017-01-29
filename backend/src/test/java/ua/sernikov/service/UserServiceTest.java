@@ -217,4 +217,36 @@ public class UserServiceTest {
         userService.removeOperatorByKey(null);
         userService.removeOperatorByKey("");
     }
+
+    @Test
+    public void shouldRemovePublisherByKey() throws Exception {
+        User publisher = userService.createPublisher(TEST_NAME, TEST_EMAIL);
+
+        User removedPublisher = userService.removePublisherByKey(publisher.getKey());
+        List<User> publishers = userService.getAllPublishers();
+
+        assertThat(removedPublisher).isNotNull()
+                                    .isEqualTo(publisher);
+        assertThat(publishers).isEmpty();
+    }
+
+    @Test
+    public void shouldGiveNullWhenRemoveNotExistingPublisher() throws Exception {
+        User removedPublisher = userService.removePublisherByKey(UUID.randomUUID().toString());
+        List<User> publishers = userService.getAllPublishers();
+
+        assertThat(removedPublisher).isNull();
+        assertThat(publishers).isEmpty();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenRemovePublisherByNotUUIDKey() throws Exception {
+        userService.removePublisherByKey("test string");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenRemovePublisherByEmptyKey() throws Exception {
+        userService.removePublisherByKey(null);
+        userService.removePublisherByKey("");
+    }
 }

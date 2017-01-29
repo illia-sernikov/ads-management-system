@@ -51,8 +51,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User removeOperatorByKey(String operatorKey) {
-        validateKey(operatorKey);
-        return users.remove(operatorKey);
+        return removeUserByKey(operatorKey, UserRole.OPERATOR);
+    }
+
+    @Override
+    public User removePublisherByKey(String publisherKey) {
+        return removeUserByKey(publisherKey, UserRole.PUBLISHER);
     }
 
     private User createUser(String name, String email, UserRole role) {
@@ -88,5 +92,10 @@ public class UserServiceImpl implements UserService {
                     .filter(user -> user.getKey().equals(key))
                     .findFirst()
                     .orElse(null);
+    }
+
+    private User removeUserByKey(String key, UserRole role) {
+        validateKey(key);
+        return users.remove(key);
     }
 }
