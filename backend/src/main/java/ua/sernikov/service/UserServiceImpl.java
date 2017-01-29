@@ -44,13 +44,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getOperatorByKey(String operatorKey) {
-        Assert.hasText(operatorKey, "'operatorKey' should be specified");
-        Assert.isTrue(operatorKey.matches(uuidRegex), "'operatorKey' should be a UUID key");
+        return getUserByKey(operatorKey, UserRole.OPERATOR);
+    }
 
-        return users.values().stream()
-                    .filter(user -> user.getKey().equals(operatorKey))
-                    .findFirst()
-                    .orElse(null);
+    @Override
+    public User getPublisherByKey(String publisherKey) {
+        return getUserByKey(publisherKey, UserRole.PUBLISHER);
     }
 
     private User createUser(String name, String email, UserRole role) {
@@ -66,5 +65,16 @@ public class UserServiceImpl implements UserService {
         users.put(email, user);
 
         return user;
+    }
+
+    private User getUserByKey(String key, UserRole role) {
+        Assert.hasText(key, "'userKey' should be specified");
+        Assert.isTrue(key.matches(uuidRegex), "'userKey' should be a UUID key");
+
+        return users.values().stream()
+                    .filter(user -> user.getRole() == role)
+                    .filter(user -> user.getKey().equals(key))
+                    .findFirst()
+                    .orElse(null);
     }
 }

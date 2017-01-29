@@ -15,4 +15,6 @@ public interface UserService {
     List<User> getAllPublishers();
 
     User getOperatorByKey(String operatorKey);
+
+    User getPublisherByKey(String publisherKey);
 }

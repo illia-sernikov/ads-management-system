@@ -153,4 +153,36 @@ public class UserServiceTest {
     public void shouldThrowIllegalArgumentExceptionWhenGiveOperatorByNotUUIDKey() throws Exception {
         userService.getOperatorByKey("test string");
     }
+
+    @Test
+    public void shouldGivePublisherByKey() throws Exception {
+        User expectedPublisher = userService.createPublisher(TEST_NAME, "test1@mail.com");
+        User anotherPublisher = userService.createPublisher(TEST_NAME, "test2@mail.com");
+        User operator = userService.createOperator(TEST_NAME, "test3@mail.com");
+
+        User actualPublisher = userService.getPublisherByKey(expectedPublisher.getKey());
+
+        assertThat(actualPublisher).isNotNull()
+                                   .isEqualTo(expectedPublisher)
+                                   .isNotEqualTo(anotherPublisher)
+                                   .isNotEqualTo(operator);
+    }
+
+    @Test
+    public void shouldGiveNullWhenPublisherDoesNotExistWithGivenKey() throws Exception {
+        User publisher = userService.getPublisherByKey(UUID.randomUUID().toString());
+
+        assertThat(publisher).isNull();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenGivePublisherByEmptyKey() throws Exception {
+        userService.getPublisherByKey(null);
+        userService.getPublisherByKey("");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenGivePublisherByNotUUIDKey() throws Exception {
+        userService.getPublisherByKey("test string");
+    }
 }
