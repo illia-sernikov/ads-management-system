@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private Map<String, User> users = new HashMap<>();
+    private String uuidRegex = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[34][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}";
 
     @Override
     public User createOperator(String name, String email) {
@@ -37,8 +38,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllPublishers() {
         return users.values().stream()
-                .filter(user -> user.getRole() == UserRole.PUBLISHER)
-                .collect(Collectors.toList());
+                    .filter(user -> user.getRole() == UserRole.PUBLISHER)
+                    .collect(Collectors.toList());
+    }
+
+    @Override
+    public User getOperatorByKey(String operatorKey) {
+        Assert.hasText(operatorKey, "'operatorKey' should be specified");
+        Assert.isTrue(operatorKey.matches(uuidRegex), "'operatorKey' should be a UUID key");
+
+        return users.values().stream()
+                    .filter(user -> user.getKey().equals(operatorKey))
+                    .findFirst()
+                    .orElse(null);
     }
 
     private User createUser(String name, String email, UserRole role) {

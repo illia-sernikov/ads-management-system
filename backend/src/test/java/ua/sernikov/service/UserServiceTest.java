@@ -9,6 +9,7 @@ import ua.sernikov.domain.UserRole;
 import ua.sernikov.exception.UserAlreadyExistException;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -119,5 +120,37 @@ public class UserServiceTest {
         assertThat(operators).hasSize(2)
                              .contains(operator1, operator2)
                              .doesNotContain(publisher);
+    }
+
+    @Test
+    public void shouldGiveOperatorByKey() throws Exception {
+        User operator1 = userService.createOperator(TEST_NAME, "test1@mail.com");
+        User operator2 = userService.createOperator(TEST_NAME, "test2@mail.com");
+
+        User actualOperator = userService.getOperatorByKey(operator2.getKey());
+
+        assertThat(actualOperator).isNotNull()
+                                  .isEqualTo(operator2)
+                                  .isNotEqualTo(operator1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenGiveOperatorByEmptyKey() throws Exception {
+        User operator = userService.createOperator(TEST_NAME, TEST_EMAIL);
+
+        userService.getOperatorByKey(null);
+        userService.getOperatorByKey("");
+    }
+
+    @Test
+    public void shouldGiveNullWhenOperatorDoesNotExistWithGivenKey() throws Exception {
+        User operator = userService.getOperatorByKey(UUID.randomUUID().toString());
+
+        assertThat(operator).isNull();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenGiveOperatorByNotUUIDKey() throws Exception {
+        userService.getOperatorByKey("test string");
     }
 }

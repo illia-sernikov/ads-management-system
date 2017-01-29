@@ -13,4 +13,6 @@ public interface UserService {
     List<User> getAllOperators();
 
     List<User> getAllPublishers();
+
+    User getOperatorByKey(String operatorKey);
 }
