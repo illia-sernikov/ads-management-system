@@ -3,7 +3,7 @@ package ua.sernikov.service;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.runners.JUnit4;
 import ua.sernikov.domain.User;
 import ua.sernikov.domain.UserRole;
 import ua.sernikov.exception.UserAlreadyExistException;
@@ -14,7 +14,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
+@RunWith(JUnit4.class)
 public class UserServiceTest {
 
     private UserService userService;
@@ -28,107 +28,50 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldCreateNewOperator() throws Exception {
-        User operator = userService.createOperator(TEST_NAME, TEST_EMAIL);
+    public void createUser_ShouldCreateNewUser() throws Exception {
+        User actualUser = userService.createUser(TEST_NAME, TEST_EMAIL, UserRole.OPERATOR);
 
-        assertThat(operator).isNotNull();
-        assertThat(operator.getRole()).isEqualTo(UserRole.OPERATOR);
+        assertThat(actualUser).isNotNull();
+        assertThat(actualUser.getKey()).isNotEmpty();
+        assertThat(actualUser.getName()).isEqualTo(TEST_NAME);
+        assertThat(actualUser.getEmail()).isEqualTo(TEST_EMAIL);
+        assertThat(actualUser.getRole()).isEqualTo(UserRole.OPERATOR);
     }
 
     @Test
-    public void shouldCreateNewPublisher() throws Exception {
-        User publisher = userService.createPublisher(TEST_NAME, TEST_EMAIL);
-
-        assertThat(publisher).isNotNull();
-        assertThat(publisher.getRole()).isEqualTo(UserRole.PUBLISHER);
-    }
-
-    @Test
-    public void shouldCreateOperatorWithKey() throws Exception {
-        User actualOperator = userService.createOperator(TEST_NAME, TEST_EMAIL);
-
-        assertThat(actualOperator.getKey()).isNotEmpty();
-    }
-
-    @Test
-    public void shouldCreateOperatorWithUniqueKey() throws Exception {
+    public void createUser_ShouldCreateUsersWithUniqueKeys() throws Exception {
         String name1 = "test1";
-        String email1 = "test1@mail.com";
-        User operator1 = userService.createOperator(name1, email1);
+        String email1 = name1 + "@mail.com";
+        User user1 = userService.createUser(name1, email1, UserRole.OPERATOR);
 
         String name2 = "test2";
-        String email2 = "test2@mail.com";
-        User operator2 = userService.createOperator(name2, email2);
+        String email2 = name2 + "@mail.com";
+        User user2 = userService.createUser(name2, email2, UserRole.OPERATOR);
 
-        assertThat(operator1.getKey()).isNotEqualTo(operator2.getKey());
-    }
-
-    @Test
-    public void shouldCreateOperatorForGivenNameAndEmail() throws Exception {
-        User actualOperator = userService.createOperator(TEST_NAME, TEST_EMAIL);
-
-        assertThat(actualOperator.getName()).isEqualTo(TEST_NAME);
-        assertThat(actualOperator.getEmail()).isEqualTo(TEST_EMAIL);
+        assertThat(user1.getKey()).isNotEqualTo(user2.getKey());
     }
 
     @Test(expected = UserAlreadyExistException.class)
-    public void shouldThrowUserAlreadyExistsException() throws Exception {
+    public void createUser_ShouldThrowUserAlreadyExistException_WhenUserExistsWithGivenEmail() throws Exception {
         String name1 = "test1";
         String name2 = "test2";
 
-        userService.createOperator(name1, TEST_EMAIL);
-        userService.createOperator(name2, TEST_EMAIL);
+        userService.createUser(name1, TEST_EMAIL, UserRole.OPERATOR);
+        userService.createUser(name2, TEST_EMAIL, UserRole.PUBLISHER);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenEmailNotPresented() throws Exception {
-        userService.createPublisher(TEST_NAME, null);
-        userService.createOperator(TEST_NAME, null);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenEmailIsEmptyString() throws Exception {
-        userService.createPublisher(TEST_NAME, "");
-        userService.createOperator(TEST_NAME, "");
+    public void createUser_ShouldThrowIllegalArgumentException_WhenEmailIsNotPresentedOrEmpty() throws Exception {
+        userService.createUser(TEST_NAME, null, UserRole.OPERATOR);
+        userService.createUser(TEST_NAME, "", UserRole.PUBLISHER);
     }
 
     @Test
-    public void shouldGiveEmptyListWhenHasNoOperators() throws Exception {
-        userService.createPublisher(TEST_NAME, TEST_EMAIL);
+    public void getUserByKey_ShouldGiveUserByKey() throws Exception {
+        User operator1 = userService.createUser(TEST_NAME, "test1@mail.com", UserRole.OPERATOR);
+        User operator2 = userService.createUser(TEST_NAME, "test2@mail.com", UserRole.OPERATOR);
 
-        List<User> operators = userService.getAllOperators();
-
-        assertThat(operators).isEmpty();
-    }
-
-    @Test
-    public void shouldGiveEmptyListWhenHasNoPublishers() throws Exception {
-        userService.createOperator(TEST_NAME, TEST_EMAIL);
-
-        List<User> publishers = userService.getAllPublishers();
-
-        assertThat(publishers).isEmpty();
-    }
-
-    @Test
-    public void shouldGiveAllOperators() throws Exception {
-        User operator1 = userService.createOperator(TEST_NAME, "test1@mail.com");
-        User operator2 = userService.createOperator(TEST_NAME, "test2@mail.com");
-        User publisher = userService.createPublisher(TEST_NAME, "test3@mail.com");
-
-        List<User> operators = userService.getAllOperators();
-
-        assertThat(operators).hasSize(2)
-                             .contains(operator1, operator2)
-                             .doesNotContain(publisher);
-    }
-
-    @Test
-    public void shouldGiveOperatorByKey() throws Exception {
-        User operator1 = userService.createOperator(TEST_NAME, "test1@mail.com");
-        User operator2 = userService.createOperator(TEST_NAME, "test2@mail.com");
-
-        User actualOperator = userService.getOperatorByKey(operator2.getKey());
+        User actualOperator = userService.getUserByKey(operator2.getKey());
 
         assertThat(actualOperator).isNotNull()
                                   .isEqualTo(operator2)
@@ -136,63 +79,31 @@ public class UserServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenGiveOperatorByEmptyKey() throws Exception {
-        User operator = userService.createOperator(TEST_NAME, TEST_EMAIL);
+    public void getUserByKey_ShouldThrowIllegalArgumentException_WhenUserKeyNotPresentedOrEmpty() throws Exception {
+        User operator = userService.createUser(TEST_NAME, TEST_EMAIL, UserRole.OPERATOR);
 
-        userService.getOperatorByKey(null);
-        userService.getOperatorByKey("");
+        userService.getUserByKey(null);
+        userService.getUserByKey("");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getUserByKey_ShouldThrowIllegalArgumentException_WhenUserKeyIsNotUUID() throws Exception {
+        userService.getUserByKey("test string");
     }
 
     @Test
-    public void shouldGiveNullWhenOperatorDoesNotExistWithGivenKey() throws Exception {
-        User operator = userService.getOperatorByKey(UUID.randomUUID().toString());
+    public void getUserByKey_ShouldGiveNull_WhenUserDoesNotExistWithGivenKey() throws Exception {
+        User operator = userService.getUserByKey(UUID.randomUUID().toString());
 
         assertThat(operator).isNull();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenGiveOperatorByNotUUIDKey() throws Exception {
-        userService.getOperatorByKey("test string");
-    }
-
     @Test
-    public void shouldGivePublisherByKey() throws Exception {
-        User expectedPublisher = userService.createPublisher(TEST_NAME, "test1@mail.com");
-        User anotherPublisher = userService.createPublisher(TEST_NAME, "test2@mail.com");
-        User operator = userService.createOperator(TEST_NAME, "test3@mail.com");
+    public void removeUserByKey_ShouldRemoveUserByKey() throws Exception {
+        User operator = userService.createUser(TEST_NAME, TEST_EMAIL, UserRole.OPERATOR);
 
-        User actualPublisher = userService.getPublisherByKey(expectedPublisher.getKey());
-
-        assertThat(actualPublisher).isNotNull()
-                                   .isEqualTo(expectedPublisher)
-                                   .isNotEqualTo(anotherPublisher)
-                                   .isNotEqualTo(operator);
-    }
-
-    @Test
-    public void shouldGiveNullWhenPublisherDoesNotExistWithGivenKey() throws Exception {
-        User publisher = userService.getPublisherByKey(UUID.randomUUID().toString());
-
-        assertThat(publisher).isNull();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenGivePublisherByEmptyKey() throws Exception {
-        userService.getPublisherByKey(null);
-        userService.getPublisherByKey("");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenGivePublisherByNotUUIDKey() throws Exception {
-        userService.getPublisherByKey("test string");
-    }
-
-    @Test
-    public void shouldRemoveOperatorByKey() throws Exception {
-        User operator = userService.createOperator(TEST_NAME, TEST_EMAIL);
-
-        User removedOperator = userService.removeOperatorByKey(operator.getKey());
-        List<User> operators = userService.getAllOperators();
+        User removedOperator = userService.removeUserByKey(operator.getKey());
+        List<User> operators = userService.getAllUsers(UserRole.OPERATOR);
 
         assertThat(removedOperator).isNotNull()
                                    .isEqualTo(operator);
@@ -200,128 +111,52 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldGiveNullWhenRemoveNotExistingOperator() throws Exception {
-        User removeOperator = userService.removeOperatorByKey(UUID.randomUUID().toString());
-        List<User> operators = userService.getAllOperators();
+    public void removeUserByKey_ShouldGiveNull_WhenUserDoesNotExist() throws Exception {
+        User removedUser = userService.removeUserByKey(UUID.randomUUID().toString());
 
-        assertThat(removeOperator).isNull();
-        assertThat(operators).isEmpty();
+        assertThat(removedUser).isNull();
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenRemoveOperatorByNotUUIDKey() throws Exception {
-        userService.removeOperatorByKey("test string");
+    public void removeUserByKey_ShouldThrowIllegalArgumentException_WhenUserKeyIsNotUUID() throws Exception {
+        userService.removeUserByKey("test string");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenRemoveOperatorByEmptyKey() throws Exception {
-        userService.removeOperatorByKey(null);
-        userService.removeOperatorByKey("");
+    public void removeUserByKey_ShouldThrowIllegalArgumentException_WhenUserKeyIsNotPresentedOrEmpty() throws Exception {
+        userService.removeUserByKey(null);
+        userService.removeUserByKey("");
     }
 
     @Test
-    public void shouldRemovePublisherByKey() throws Exception {
-        User publisher = userService.createPublisher(TEST_NAME, TEST_EMAIL);
-
-        User removedPublisher = userService.removePublisherByKey(publisher.getKey());
-        List<User> publishers = userService.getAllPublishers();
-
-        assertThat(removedPublisher).isNotNull()
-                                    .isEqualTo(publisher);
-        assertThat(publishers).isEmpty();
-    }
-
-    @Test
-    public void shouldGiveNullWhenRemoveNotExistingPublisher() throws Exception {
-        User removedPublisher = userService.removePublisherByKey(UUID.randomUUID().toString());
-        List<User> publishers = userService.getAllPublishers();
-
-        assertThat(removedPublisher).isNull();
-        assertThat(publishers).isEmpty();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenRemovePublisherByNotUUIDKey() throws Exception {
-        userService.removePublisherByKey("test string");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenRemovePublisherByEmptyKey() throws Exception {
-        userService.removePublisherByKey(null);
-        userService.removePublisherByKey("");
-    }
-
-    @Test
-    public void shouldUpdateOnlyOperatorName() throws Exception {
-        String expectedName = "new test";
-        User operator = userService.createOperator(TEST_NAME, TEST_EMAIL);
+    public void updateUser_ShouldUpdateOnlyNameAndEmail() throws Exception {
+        String expectedName = "new_test";
+        String expectedEmail = expectedName + "@mail.com";
+        User operator = userService.createUser(TEST_NAME, TEST_EMAIL, UserRole.OPERATOR);
         operator.setName(expectedName);
+        operator.setEmail(expectedEmail);
 
-        User actualOperator = userService.updateOperator(operator);
+        User actualOperator = userService.updateUser(operator);
 
         assertThat(actualOperator).isNotNull()
                                   .isEqualTo(operator);
-        assertThat(actualOperator.getName()).isEqualTo(expectedName);
-        assertThat(actualOperator.getEmail()).isEqualTo(TEST_EMAIL);
-    }
 
-    @Test
-    public void shouldNotCreateNewOperatorWhenUpdateExistingOperator() throws Exception {
-        User operator = userService.createOperator(TEST_NAME, TEST_EMAIL);
-        operator.setName("new name");
+        assertThat(actualOperator.getName()).isEqualTo(expectedName)
+                                            .isNotEqualTo(TEST_NAME);
 
-        userService.updateOperator(operator);
-        List<User> operators = userService.getAllOperators();
-
-        assertThat(operators).hasSize(1);
+        assertThat(actualOperator.getEmail()).isEqualTo(expectedEmail)
+                                             .isNotEqualTo(TEST_EMAIL);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenUpdatedOperatorIsNull() throws Exception {
-        userService.updateOperator(null);
+    public void updateUser_ShouldThrowIllegalArgumentException_WhenUserIsNull() throws Exception {
+        userService.updateUser(null);
     }
 
     @Test(expected = UserNotFoundException.class)
-    public void shouldThrowUserNotFoundExceptionWhenUpdatedOperatorDoesNotExist() throws Exception {
-        User operator = new User(TEST_NAME, TEST_EMAIL, UserRole.OPERATOR);
+    public void updateUser_ShouldThrowUserNotFoundException_WhenUserDoesNotExist() throws Exception {
+        User user = new User(TEST_NAME, TEST_EMAIL, UserRole.OPERATOR);
 
-        userService.updateOperator(operator);
-    }
-
-    @Test
-    public void shouldUpdateOnlyPublisherName() throws Exception {
-        String expectedName = "new test";
-        User publisher = userService.createPublisher(TEST_NAME, TEST_EMAIL);
-        publisher.setName(expectedName);
-
-        User actualPublisher = userService.updatePublisher(publisher);
-
-        assertThat(actualPublisher).isNotNull()
-                                  .isEqualTo(publisher);
-        assertThat(actualPublisher.getName()).isEqualTo(expectedName);
-        assertThat(actualPublisher.getEmail()).isEqualTo(TEST_EMAIL);
-    }
-
-    @Test
-    public void shouldNotCreateNewPublisherWhenUpdateExistingPublisher() throws Exception {
-        User publisher = userService.createPublisher(TEST_NAME, TEST_EMAIL);
-        publisher.setName("new name");
-
-        userService.updatePublisher(publisher);
-        List<User> publishers = userService.getAllPublishers();
-
-        assertThat(publishers).hasSize(1);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenUpdatedPublisherIsNull() throws Exception {
-        userService.updatePublisher(null);
-    }
-
-    @Test(expected = UserNotFoundException.class)
-    public void shouldThrowUserNotFoundExceptionWhenUpdatedPublisherDoesNotExist() throws Exception {
-        User publisher = new User(TEST_NAME, TEST_EMAIL, UserRole.PUBLISHER);
-
-        userService.updatePublisher(publisher);
+        userService.updateUser(user);
     }
 }

@@ -11,66 +11,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService {
+class UserServiceImpl implements UserService {
 
     private Map<String, User> users = new HashMap<>();
     private String uuidRegex = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[34][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}";
 
     @Override
-    public User createOperator(String name, String email) {
-        return createUser(name, email, UserRole.OPERATOR);
-    }
-
-    @Override
-    public User createPublisher(String name, String email) {
-        return createUser(name, email, UserRole.PUBLISHER);
-    }
-
-    @Override
-    public List<User> getAllOperators() {
-        return users.values().stream()
-                    .filter(user -> user.getRole() == UserRole.OPERATOR)
-                    .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<User> getAllPublishers() {
-        return users.values().stream()
-                    .filter(user -> user.getRole() == UserRole.PUBLISHER)
-                    .collect(Collectors.toList());
-    }
-
-    @Override
-    public User getOperatorByKey(String operatorKey) {
-        return getUserByKey(operatorKey, UserRole.OPERATOR);
-    }
-
-    @Override
-    public User getPublisherByKey(String publisherKey) {
-        return getUserByKey(publisherKey, UserRole.PUBLISHER);
-    }
-
-    @Override
-    public User removeOperatorByKey(String operatorKey) {
-        return removeUserByKey(operatorKey, UserRole.OPERATOR);
-    }
-
-    @Override
-    public User removePublisherByKey(String publisherKey) {
-        return removeUserByKey(publisherKey, UserRole.PUBLISHER);
-    }
-
-    @Override
-    public User updateOperator(User operator) {
-        return updateUser(operator);
-    }
-
-    @Override
-    public User updatePublisher(User publisher) {
-        return updateUser(publisher);
-    }
-
-    private User createUser(String name, String email, UserRole role) {
+    public User createUser(String name, String email, UserRole role) {
         Assert.hasText(email, "Email should be specified");
 
         if (isUserExists(email)) {
@@ -85,32 +32,31 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    private boolean isUserExists(String email) {
+    @Override
+    public List<User> getAllUsers(UserRole userRole) {
         return users.values().stream()
-                    .anyMatch(user -> Objects.equals(email, user.getEmail()));
+                    .filter(user -> user.getRole() == userRole)
+                    .collect(Collectors.toList());
     }
 
-    private void validateKey(String key) {
-        Assert.hasText(key, "'userKey' should be specified");
-        Assert.isTrue(key.matches(uuidRegex), "'userKey' should be a UUID key");
-    }
-
-    private User getUserByKey(String key, UserRole role) {
-        validateKey(key);
+    @Override
+    public User getUserByKey(String userKey) {
+        validateKey(userKey);
 
         return users.values().stream()
-                    .filter(user -> user.getRole() == role)
-                    .filter(user -> user.getKey().equals(key))
+                    .filter(user -> user.getKey().equals(userKey))
                     .findFirst()
                     .orElse(null);
     }
 
-    private User removeUserByKey(String key, UserRole role) {
-        validateKey(key);
-        return users.remove(key);
+    @Override
+    public User removeUserByKey(String userKey) {
+        validateKey(userKey);
+        return users.remove(userKey);
     }
 
-    private User updateUser(User user) {
+    @Override
+    public User updateUser(User user) {
         Assert.notNull(user);
 
         if (!isUserExists(user.getEmail())) {
@@ -119,5 +65,15 @@ public class UserServiceImpl implements UserService {
 
         String userKey = user.getKey();
         return users.replace(userKey, user);
+    }
+
+    private boolean isUserExists(String email) {
+        return users.values().stream()
+                    .anyMatch(user -> Objects.equals(email, user.getEmail()));
+    }
+
+    private void validateKey(String key) {
+        Assert.hasText(key, "'userKey' should be specified");
+        Assert.isTrue(key.matches(uuidRegex), "'userKey' should be a UUID key");
     }
 }

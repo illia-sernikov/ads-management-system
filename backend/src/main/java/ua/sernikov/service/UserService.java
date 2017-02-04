@@ -1,28 +1,19 @@
 package ua.sernikov.service;
 
 import ua.sernikov.domain.User;
+import ua.sernikov.domain.UserRole;
 
 import java.util.List;
 
-public interface UserService {
+interface UserService {
 
-    User createOperator(String name, String email);
+    User createUser(String name, String email, UserRole userRole);
 
-    User createPublisher(String name, String email);
+    List<User> getAllUsers(UserRole userRole);
 
-    List<User> getAllOperators();
+    User getUserByKey(String userKey);
 
-    List<User> getAllPublishers();
+    User removeUserByKey(String userKey);
 
-    User getOperatorByKey(String operatorKey);
-
-    User getPublisherByKey(String publisherKey);
-
-    User removeOperatorByKey(String operatorKey);
-
-    User removePublisherByKey(String publisherKey);
-
-    User updateOperator(User operator);
-
-    User updatePublisher(User publisher);
+    User updateUser(User user);
 }
