@@ -19,7 +19,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     Optional<User> deleteByKey(String key);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("update User u set u.name=?1, u.email=?2 where u.key=?3")
     void updateByKey(String name, String email, String key);
 }
