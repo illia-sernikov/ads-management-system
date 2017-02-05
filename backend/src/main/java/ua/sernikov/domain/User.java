@@ -1,21 +1,39 @@
 package ua.sernikov.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
+    private Long id;
+    @Column(unique = true, nullable = false)
     private String key;
+    @Column
     private String name;
+    @Column(unique = true, nullable = false)
     private String email;
+    @JsonIgnore
     private UserRole role;
+
+    public User() {
+    }
 
     public User(String name, String email, UserRole role) {
         this.name = name;
         this.email = email;
         this.role = role;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getKey() {

@@ -1,20 +1,30 @@
 package ua.sernikov.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ua.sernikov.domain.User;
 import ua.sernikov.domain.UserRole;
 import ua.sernikov.exception.UserAlreadyExistException;
 import ua.sernikov.exception.UserNotFoundException;
+import ua.sernikov.repository.UserRepository;
 
-import java.util.*;
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 class UserServiceImpl implements UserService {
 
-    private Map<String, User> users = new HashMap<>();
     private String uuidRegex = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[34][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}";
+
+    private UserRepository userRepository;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public User createUser(String name, String email, UserRole role) {
@@ -27,35 +37,32 @@ class UserServiceImpl implements UserService {
         User user = new User(name, email, role);
         user.setKey(UUID.randomUUID().toString());
 
-        users.put(user.getKey(), user);
-
-        return user;
+        return userRepository.save(user);
     }
 
     @Override
     public List<User> getAllUsers(UserRole userRole) {
-        return users.values().stream()
-                    .filter(user -> user.getRole() == userRole)
-                    .collect(Collectors.toList());
+        return userRepository.findAllByRole(userRole).stream()
+                             .collect(Collectors.toList());
     }
 
     @Override
     public User getUserByKey(String userKey) {
         validateKey(userKey);
-
-        return users.values().stream()
-                    .filter(user -> user.getKey().equals(userKey))
-                    .findFirst()
-                    .orElse(null);
+        return userRepository.findByKey(userKey)
+                             .orElse(null);
     }
 
     @Override
+    @Transactional
     public User removeUserByKey(String userKey) {
         validateKey(userKey);
-        return users.remove(userKey);
+        return userRepository.deleteByKey(userKey)
+                             .orElse(null);
     }
 
     @Override
+    @Transactional
     public User updateUser(User user) {
         Assert.notNull(user);
 
@@ -63,13 +70,13 @@ class UserServiceImpl implements UserService {
             throw new UserNotFoundException("User with email " + user.getEmail() + " not found");
         }
 
-        String userKey = user.getKey();
-        return users.replace(userKey, user);
+        userRepository.updateByKey(user.getName(), user.getEmail(), user.getKey());
+
+        return user;
     }
 
     private boolean isUserExists(String email) {
-        return users.values().stream()
-                    .anyMatch(user -> Objects.equals(email, user.getEmail()));
+        return userRepository.findByEmail(email).isPresent();
     }
 
     private void validateKey(String key) {
