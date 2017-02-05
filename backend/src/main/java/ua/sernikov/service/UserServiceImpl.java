@@ -55,7 +55,7 @@ class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User removeUserByKey(String userKey) {
+    public User deleteUserByKey(String userKey) {
         validateKey(userKey);
         return userRepository.deleteByKey(userKey)
                              .orElse(null);

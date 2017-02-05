@@ -13,7 +13,7 @@ interface UserService {
 
     User getUserByKey(String userKey);
 
-    User removeUserByKey(String userKey);
+    User deleteUserByKey(String userKey);
 
     User updateUser(User user);
 }

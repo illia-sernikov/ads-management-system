@@ -12,7 +12,7 @@ public interface OperatorService {
 
     User getOperatorByKey(String operatorKey);
 
-    User removeOperatorByKey(String operatorKey);
+    User deleteOperatorByKey(String operatorKey);
 
     User updateOperator(User operator);
 }

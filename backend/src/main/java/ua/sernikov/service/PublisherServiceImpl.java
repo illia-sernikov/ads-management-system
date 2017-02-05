@@ -33,8 +33,8 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public User removePublisherByKey(String publisherKey) {
-        return userService.removeUserByKey(publisherKey);
+    public User deletePublisherByKey(String publisherKey) {
+        return userService.deleteUserByKey(publisherKey);
     }
 
     @Override

@@ -123,14 +123,14 @@ public class UserServiceTest {
     }
 
     @Test
-    public void removeUserByKey_ShouldRemoveUserByKey() throws Exception {
+    public void deleteUserByKey_ShouldRemoveUserByKey() throws Exception {
         doAnswer(returnsFirstArg()).when(userRepositoryMock).save(any(User.class));
         when(userRepositoryMock.findByEmail(anyString())).thenReturn(Optional.empty());
 
         User operator = userService.createUser(TEST_NAME, TEST_EMAIL, UserRole.OPERATOR);
         when(userRepositoryMock.deleteByKey(operator.getKey())).thenReturn(Optional.of(operator));
 
-        User removedOperator = userService.removeUserByKey(operator.getKey());
+        User removedOperator = userService.deleteUserByKey(operator.getKey());
         List<User> operators = userService.getAllUsers(UserRole.OPERATOR);
 
         assertThat(removedOperator).isNotNull()
@@ -140,22 +140,22 @@ public class UserServiceTest {
     }
 
     @Test
-    public void removeUserByKey_ShouldGiveNull_WhenUserDoesNotExist() throws Exception {
+    public void deleteUserByKey_ShouldGiveNull_WhenUserDoesNotExist() throws Exception {
         when(userRepositoryMock.deleteByKey(anyString())).thenReturn(Optional.empty());
-        User removedUser = userService.removeUserByKey(UUID.randomUUID().toString());
+        User removedUser = userService.deleteUserByKey(UUID.randomUUID().toString());
 
         assertThat(removedUser).isNull();
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void removeUserByKey_ShouldThrowIllegalArgumentException_WhenUserKeyIsNotUUID() throws Exception {
-        userService.removeUserByKey("test string");
+    public void deleteUserByKey_ShouldThrowIllegalArgumentException_WhenUserKeyIsNotUUID() throws Exception {
+        userService.deleteUserByKey("test string");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void removeUserByKey_ShouldThrowIllegalArgumentException_WhenUserKeyIsNotPresentedOrEmpty() throws Exception {
-        userService.removeUserByKey(null);
-        userService.removeUserByKey("");
+    public void deleteUserByKey_ShouldThrowIllegalArgumentException_WhenUserKeyIsNotPresentedOrEmpty() throws Exception {
+        userService.deleteUserByKey(null);
+        userService.deleteUserByKey("");
     }
 
     @Test
