@@ -3,8 +3,10 @@ package ua.sernikov.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
@@ -14,12 +16,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonIgnore
     private Long id;
+
     @Column(unique = true, nullable = false)
     private String key;
+
     @Column
+    @Size(min = 3, max = 50)
     private String name;
+
     @Column(unique = true, nullable = false)
+    @NotBlank
+    @Size(max = 50)
     private String email;
+
     @JsonIgnore
     private UserRole role;
 
