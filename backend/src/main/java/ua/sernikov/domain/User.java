@@ -29,6 +29,8 @@ public class User {
     @Size(max = 50)
     private String email;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     @JsonIgnore
     private UserRole role;
 
