@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { AmsHttp } from './service/ams-http';
+import { AmsHttp, UserService } from './service';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,8 @@ import { AmsHttp } from './service/ams-http';
         return new AmsHttp(backend, options);
       },
       deps: [XHRBackend, RequestOptions]
-    }
+    },
+    UserService
   ],
   bootstrap: [AppComponent]
 })
