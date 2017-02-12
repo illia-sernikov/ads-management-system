@@ -2,9 +2,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
+import { MaterialModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { AmsHttp, UserService } from './service';
+
+import 'hammerjs';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [
+];
+
 
 @NgModule({
   declarations: [
@@ -13,7 +21,10 @@ import { AmsHttp, UserService } from './service';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    MaterialModule.forRoot(),
+
+    RouterModule.forRoot(routes)
   ],
   providers: [
     {
@@ -27,4 +38,5 @@ import { AmsHttp, UserService } from './service';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
