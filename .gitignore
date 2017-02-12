@@ -4,5 +4,23 @@
 *.iws
 
 # Maven
-target/
+backend/target/
 *.class
+
+# compiled output
+frontend/dist/
+frontend/tmp/
+
+# dependencies
+frontend/node_modules/
+
+# e2e
+frontend/e2e/*.js
+frontend/e2e/*.map
+
+#System Files
+.DS_Store
+Thumbs.db
+
+npm-debug.log
+yarn.lock
