@@ -11,6 +11,11 @@ import 'hammerjs';
 import { AppRouterModule } from './app.router';
 import { AdminComponent, ErrorComponent } from './component';
 
+export function httpFactory(backend: XHRBackend, options: RequestOptions) {
+  return new AmsHttp(backend, options);
+}
+
+
 @NgModule({
   declarations: [
     AppComponent, AdminComponent, ErrorComponent
@@ -26,9 +31,7 @@ import { AdminComponent, ErrorComponent } from './component';
   providers: [
     {
       provide: Http,
-      useFactory: (backend: XHRBackend, options: RequestOptions) => {
-        return new AmsHttp(backend, options);
-      },
+      useFactory: httpFactory,
       deps: [XHRBackend, RequestOptions]
     },
     UserService
