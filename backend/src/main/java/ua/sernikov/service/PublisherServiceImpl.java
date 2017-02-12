@@ -24,7 +24,7 @@ public class PublisherServiceImpl implements PublisherService {
 
     @Override
     public List<User> getAllPublishers() {
-        return userService.getAllUsers(UserRole.PUBLISHER);
+        return userService.getAllUsersByRole(UserRole.PUBLISHER);
     }
 
     @Override

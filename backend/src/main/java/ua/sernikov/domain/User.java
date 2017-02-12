@@ -1,5 +1,6 @@
 package ua.sernikov.domain;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -22,7 +23,8 @@ public class User {
     @UUID
     private String key;
 
-    @Column
+    @Column(nullable = false)
+    @NotBlank
     @Size(min = 3, max = 50)
     private String name;
 
@@ -73,6 +75,7 @@ public class User {
         this.email = email;
     }
 
+    @JsonGetter
     public UserRole getRole() {
         return role;
     }

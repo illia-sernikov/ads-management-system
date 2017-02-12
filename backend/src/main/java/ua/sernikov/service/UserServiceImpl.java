@@ -3,6 +3,7 @@ package ua.sernikov.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ua.sernikov.domain.NewUserRequest;
 import ua.sernikov.domain.User;
 import ua.sernikov.domain.UserRole;
 import ua.sernikov.exception.UserAlreadyExistException;
@@ -15,7 +16,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService {
 
     private String uuidRegex = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[34][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}";
 
@@ -41,7 +42,24 @@ class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers(UserRole userRole) {
+    public User createUser(NewUserRequest userRequest) {
+        Assert.notNull(userRequest);
+
+        String userName = userRequest.getName();
+        String userEmail = userRequest.getEmail();
+        UserRole userRole = userRequest.getRole();
+
+        return createUser(userName, userEmail, userRole);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll().stream()
+                             .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<User> getAllUsersByRole(UserRole userRole) {
         return userRepository.findAllByRole(userRole).stream()
                              .collect(Collectors.toList());
     }

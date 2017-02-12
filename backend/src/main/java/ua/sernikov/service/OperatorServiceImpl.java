@@ -24,7 +24,7 @@ public class OperatorServiceImpl implements OperatorService {
 
     @Override
     public List<User> getAllOperators() {
-        return userService.getAllUsers(UserRole.OPERATOR);
+        return userService.getAllUsersByRole(UserRole.OPERATOR);
     }
 
     @Override

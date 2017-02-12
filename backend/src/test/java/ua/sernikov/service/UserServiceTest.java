@@ -131,7 +131,7 @@ public class UserServiceTest {
         when(userRepositoryMock.deleteByKey(operator.getKey())).thenReturn(Optional.of(operator));
 
         User removedOperator = userService.deleteUserByKey(operator.getKey());
-        List<User> operators = userService.getAllUsers(UserRole.OPERATOR);
+        List<User> operators = userService.getAllUsersByRole(UserRole.OPERATOR);
 
         assertThat(removedOperator).isNotNull()
                                    .isEqualTo(operator);
