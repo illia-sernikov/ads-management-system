@@ -20,7 +20,8 @@
       "prefix": "ams",
       "styles": [
         "styles.css",
-        "../node_modules/normalize.css/normalize.css"
+        "../node_modules/normalize.css/normalize.css",
+        "../node_modules/@angular/material/core/theming/prebuilt/deeppurple-amber.css"
       ],
       "scripts": [],
       "environments": {
