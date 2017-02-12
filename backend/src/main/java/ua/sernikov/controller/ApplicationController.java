@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import ua.sernikov.domain.Application;
+import ua.sernikov.domain.NewApplicationRequest;
 import ua.sernikov.service.ApplicationService;
 
 import javax.validation.Valid;
@@ -41,8 +42,8 @@ public class ApplicationController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Application createApplication(@RequestBody @Valid Application newApplication) {
-        return applicationService.createApplication(newApplication);
+    public Application createApplication(@RequestBody @Valid NewApplicationRequest applicationRequest) {
+        return applicationService.createApplication(applicationRequest);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "{key}")

@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ua.sernikov.domain.Application;
+import ua.sernikov.domain.Application.ApplicationBuilder;
+import ua.sernikov.domain.NewApplicationRequest;
+import ua.sernikov.domain.User;
 import ua.sernikov.repository.ApplicationRepository;
 
 import javax.transaction.Transactional;
@@ -15,10 +18,12 @@ import java.util.stream.Collectors;
 public class ApplicationServiceImpl implements ApplicationService {
 
     private ApplicationRepository applicationRepository;
+    private PublisherService publisherService;
 
     @Autowired
-    public ApplicationServiceImpl(ApplicationRepository applicationRepository) {
+    public ApplicationServiceImpl(ApplicationRepository applicationRepository, PublisherService publisherService) {
         this.applicationRepository = applicationRepository;
+        this.publisherService = publisherService;
     }
 
     @Override
@@ -41,10 +46,19 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Application createApplication(Application newApplication) {
-        Assert.notNull(newApplication);
+    public Application createApplication(NewApplicationRequest applicationRequest) {
+        Assert.notNull(applicationRequest);
 
-        newApplication.setKey(UUID.randomUUID().toString());
+        User publisher = publisherService.getPublisherByKey(applicationRequest.getPublisherKey());
+
+        Application newApplication = ApplicationBuilder.anApplication()
+                                                       .withKey(UUID.randomUUID().toString())
+                                                       .withName(applicationRequest.getName())
+                                                       .withType(applicationRequest.getType())
+                                                       .withPublisher(publisher)
+                                                       .withContentTypes(applicationRequest.getContentTypes())
+                                                       .build();
+
         return applicationRepository.save(newApplication);
     }
 
