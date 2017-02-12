@@ -42,7 +42,7 @@ public class OperatorController {
     public User updateOperator(@PathVariable("key") String operatorKey, @RequestBody User operator) {
         Assert.hasText(operatorKey);
         Assert.notNull(operator);
-        Assert.isTrue(operatorKey.equals(operator.getKey()), "You try to update different operators");
+        operator.setKey(operatorKey);
         return operatorService.updateOperator(operator);
     }
 

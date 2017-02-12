@@ -42,7 +42,7 @@ public class PublisherController {
     public User updatePublisher(@PathVariable("key") String publisherKey, @RequestBody User publisher) {
         Assert.hasText(publisherKey);
         Assert.notNull(publisher);
-        Assert.isTrue(publisherKey.equals(publisher.getKey()), "You try to update different publishers");
+        publisher.setKey(publisherKey);
         return publisherService.updatePublisher(publisher);
     }
 
