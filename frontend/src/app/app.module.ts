@@ -8,15 +8,12 @@ import { AppComponent } from './app.component';
 import { AmsHttp, UserService } from './service';
 
 import 'hammerjs';
-import { RouterModule, Routes } from '@angular/router';
-
-const routes: Routes = [
-];
-
+import { AppRouterModule } from './app.router';
+import { AdminComponent, ErrorComponent } from './component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent, AdminComponent, ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +21,7 @@ const routes: Routes = [
     HttpModule,
     MaterialModule.forRoot(),
 
-    RouterModule.forRoot(routes)
+    AppRouterModule
   ],
   providers: [
     {
