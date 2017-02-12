@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.NotBlank;
+import ua.sernikov.annotation.UUID;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,6 +22,7 @@ public class Application {
     private Long id;
 
     @Column(unique = true, nullable = false)
+    @UUID
     private String key;
 
     @Column(unique = true, nullable = false)
@@ -118,5 +120,53 @@ public class Application {
                        .append(name)
                        .append(type)
                        .toHashCode();
+    }
+
+    public static final class ApplicationBuilder {
+
+        private String key;
+        private String name;
+        private AppType type;
+        private List<ContentType> contentTypes;
+        private User owner;
+
+        private ApplicationBuilder() {}
+
+        public static ApplicationBuilder anApplication() { return new ApplicationBuilder();}
+
+        public ApplicationBuilder withKey(String key) {
+            this.key = key;
+            return this;
+        }
+
+        public ApplicationBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public ApplicationBuilder withType(AppType type) {
+            this.type = type;
+            return this;
+        }
+
+        public ApplicationBuilder withContentTypes(List<ContentType> contentTypes) {
+            this.contentTypes = contentTypes;
+            return this;
+        }
+
+        public ApplicationBuilder withPublisher(User publisher) {
+            this.owner = publisher;
+            return this;
+        }
+
+        public Application build() {
+            Application application = new Application();
+            application.setKey(key);
+            application.setName(name);
+            application.setType(type);
+            application.setContentTypes(contentTypes);
+            application.setOwner(owner);
+            return application;
+        }
     }
 }

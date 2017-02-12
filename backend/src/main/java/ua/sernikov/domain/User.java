@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.NotBlank;
+import ua.sernikov.annotation.UUID;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -18,6 +19,7 @@ public class User {
     private Long id;
 
     @Column(unique = true, nullable = false)
+    @UUID
     private String key;
 
     @Column
