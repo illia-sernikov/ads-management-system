@@ -13,6 +13,7 @@ import { ApplicationService } from '../../../service';
 export class CreateApplicationFormComponent {
 
   @Input() publishers: User[] = [];
+  @Input() publisherKey: string;
   @Output() onApplicationCreated: EventEmitter<Application> = new EventEmitter();
 
   appTypes: AppType[] = ['WEBSITE', 'ANDROID', 'IOS'];
@@ -26,6 +27,7 @@ export class CreateApplicationFormComponent {
   createApp(appForm: NgForm): void {
     const newApp = appForm.value as ApplicationRequest;
     newApp.contentTypes = this.selectedContentTypes;
+    newApp.publisherKey = this.publisherKey || newApp.publisherKey;
 
     this.appService.create(newApp)
         .toPromise()

@@ -1,6 +1,6 @@
 <md-grid-list cols="5">
   <md-grid-tile *ngFor="let user of users">
-    <md-card>
+    <md-card (click)="openUserDetails(user)">
       <md-card-content>
         <div>{{ user.name }}</div>
         <div>{{ user.email }}</div>

@@ -1,5 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
-import { AdminComponent, ErrorComponent, OperatorComponent } from './component';
+import { AdminComponent, ErrorComponent, OperatorComponent, PublisherComponent } from './component';
 
 const routes: Routes = [
   {
@@ -9,6 +9,10 @@ const routes: Routes = [
   {
     path: 'operator',
     component: OperatorComponent
+  },
+  {
+    path: 'publisher/:key',
+    component: PublisherComponent
   },
   {
     path: '',

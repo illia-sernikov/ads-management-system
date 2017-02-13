@@ -1,5 +1,7 @@
 import 'rxjs/add/operator/toPromise';
 import { Component, Inject, Input, OnInit } from '@angular/core';
+import { isPresent } from '@angular/core/src/facade/lang';
+import { Router } from '@angular/router';
 import { User } from '../../../domain';
 import { UserServiceInterface } from '../../../service';
 
@@ -12,7 +14,8 @@ export class UserListComponent implements OnInit {
 
   @Input() users: User[] = [];
 
-  constructor(@Inject(UserServiceInterface) private userService: UserServiceInterface) {
+  constructor(@Inject(UserServiceInterface) private userService: UserServiceInterface,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -28,5 +31,11 @@ export class UserListComponent implements OnInit {
         .then(() => {
           this.users = this.users.filter(usr => usr.key !== user.key);
         });
+  }
+
+  openUserDetails(user: User): void {
+    if (isPresent(user) && user.role === 'PUBLISHER') {
+      this.router.navigate(['/publisher', user.key]);
+    }
   }
 }
