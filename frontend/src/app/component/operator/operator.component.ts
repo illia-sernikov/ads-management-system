@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/takeWhile';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { User, UserRole } from '../../domain';
-import { OperatorService, UserServiceInterface } from '../../service';
+import { Application, User, UserRole } from '../../domain';
+import { ApplicationService, OperatorService, UserServiceInterface } from '../../service';
 
 @Component({
   selector: 'ams-operator',
@@ -18,16 +18,22 @@ export class OperatorComponent implements OnInit, OnDestroy {
 
   publishers: User[] = [];
   userRoles: UserRole[] = ['PUBLISHER'];
+  applications: Application[] = [];
 
   private active = true;
 
-  constructor(@Inject(UserServiceInterface) private operatorService: UserServiceInterface) {
+  constructor(@Inject(UserServiceInterface) private operatorService: UserServiceInterface,
+              private appService: ApplicationService) {
   }
 
   ngOnInit() {
     this.operatorService.getAll()
         .takeWhile(() => this.active)
         .subscribe(users => this.publishers = users);
+
+    this.appService.getAll()
+        .takeWhile(() => this.active)
+        .subscribe(apps => this.applications = apps);
   }
 
   ngOnDestroy(): void {
@@ -36,5 +42,9 @@ export class OperatorComponent implements OnInit, OnDestroy {
 
   onOperatorCreated(operator: User): void {
     this.publishers.push(operator);
+  }
+
+  onApplicationCreated(app: Application): void {
+    this.applications.push(app);
   }
 }
