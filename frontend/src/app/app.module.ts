@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { AppRouterModule } from './app.router';
-import { AdminComponent, CreateUserFormComponent, ErrorComponent, UserListComponent } from './component';
+import { AdminComponent, CreateUserFormComponent, ErrorComponent, OperatorComponent, UserListComponent } from './component';
 import { AmsHttp, OperatorService, UserService } from './service';
 
 export function httpFactory(backend: XHRBackend, options: RequestOptions) {
@@ -16,9 +16,13 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions) {
 
 @NgModule({
   declarations: [
-    AppComponent, AdminComponent, ErrorComponent,
+    AppComponent,
+    ErrorComponent,
     CreateUserFormComponent,
-    UserListComponent
+    UserListComponent,
+
+    AdminComponent,
+    OperatorComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,6 @@
+<div>
+  <ams-create-user-form [userRoles]="userRoles" (onUserCreated)="onOperatorCreated($event)">
+  </ams-create-user-form>
+
+  <ams-user-list [users]="operators"></ams-user-list>
+</div>
