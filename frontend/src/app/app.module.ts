@@ -8,14 +8,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { AppRouterModule } from './app.router';
 import {
-  AdminComponent, CreateApplicationFormComponent, CreateUserFormComponent, ErrorComponent, OperatorComponent, UserListComponent
+  AdminComponent, ApplicationListComponent, CreateApplicationFormComponent, CreateUserFormComponent, ErrorComponent, OperatorComponent,
+  UserListComponent
 } from './component';
 import { AmsHttp, ApplicationService, OperatorService, UserService } from './service';
 
 export function httpFactory(backend: XHRBackend, options: RequestOptions) {
   return new AmsHttp(backend, options);
 }
-
 
 @NgModule({
   declarations: [
@@ -27,6 +27,7 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions) {
     AdminComponent,
     OperatorComponent,
     CreateApplicationFormComponent,
+    ApplicationListComponent,
   ],
   imports: [
     BrowserModule,

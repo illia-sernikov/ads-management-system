@@ -1,0 +1,24 @@
+<md-grid-list cols="5">
+  <md-grid-tile *ngFor="let app of applications">
+    <md-card>
+      <md-card-content>
+        <div>{{ app.name }}</div>
+        <div>{{ app.type }}</div>
+        <div *ngFor="let contentType of app.contentTypes">
+          {{ contentType }}
+        </div>
+
+        <div>
+          <span>Owner:</span>
+          <div>{{ app.owner.name }}</div>
+          <div>{{ app.owner.email }}</div>
+        </div>
+      </md-card-content>
+
+      <md-card-actions>
+        <button type="button" md-button (click)="onEditApp(app)">Edit</button>
+        <button type="button" md-button (click)="onDeleteApp(app)">Delete</button>
+      </md-card-actions>
+    </md-card>
+  </md-grid-tile>
+</md-grid-list>
