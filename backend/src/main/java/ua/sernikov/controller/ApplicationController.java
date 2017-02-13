@@ -53,8 +53,8 @@ public class ApplicationController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "{key}")
-    public Application deleteApplication(@PathVariable("key") String applicationKey) {
+    public void deleteApplication(@PathVariable("key") String applicationKey) {
         Assert.hasText(applicationKey);
-        return applicationService.deleteApplication(applicationKey);
+        applicationService.deleteApplication(applicationKey);
     }
 }

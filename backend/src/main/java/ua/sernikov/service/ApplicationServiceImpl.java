@@ -70,7 +70,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     @Transactional
-    public Application deleteApplication(String applicationKey) {
-        throw new UnsupportedOperationException("Delete not implemented yet");
+    public Long deleteApplication(String applicationKey) {
+        Assert.hasText(applicationKey);
+        return this.applicationRepository.deleteByKey(applicationKey);
     }
 }

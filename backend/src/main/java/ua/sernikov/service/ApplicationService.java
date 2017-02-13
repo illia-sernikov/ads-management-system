@@ -17,5 +17,5 @@ public interface ApplicationService {
 
     Application updateApplication(Application application);
 
-    Application deleteApplication(String applicationKey);
+    Long deleteApplication(String applicationKey);
 }

@@ -14,4 +14,6 @@ public interface ApplicationRepository extends CrudRepository<Application, Long>
     Optional<Application> findByKey(String applicationKey);
 
     Collection<Application> findAllByOwnerKey(String ownerKey);
+
+    Long deleteByKey(String applicationKey);
 }
