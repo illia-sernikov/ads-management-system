@@ -10,7 +10,7 @@ import { UserService, UserServiceInterface } from '../../service';
   styleUrls: ['./admin.component.css'],
   providers: [
     {
-      provide: 'UserServiceInterface',
+      provide: UserServiceInterface,
       useClass: UserService
     }
   ]

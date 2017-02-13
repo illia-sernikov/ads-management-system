@@ -1,3 +1,4 @@
+import { OpaqueToken } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../domain';
 
@@ -11,3 +12,5 @@ export interface UserServiceInterface {
 
   delete(user: User): Observable<User>;
 }
+
+export const UserServiceInterface = new OpaqueToken('UserServiceInterface');

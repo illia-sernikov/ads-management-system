@@ -13,7 +13,7 @@ export class CreateUserFormComponent implements OnInit {
   @Input() userRoles: UserRole[] = [];
   @Output() onUserCreated: EventEmitter<User> = new EventEmitter();
 
-  constructor(@Inject('UserServiceInterface') private userService: UserServiceInterface) {
+  constructor(@Inject(UserServiceInterface) private userService: UserServiceInterface) {
   }
 
   ngOnInit() {
