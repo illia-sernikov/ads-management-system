@@ -8,7 +8,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { AppRouterModule } from './app.router';
 import { AdminComponent, CreateUserFormComponent, ErrorComponent, OperatorComponent, UserListComponent } from './component';
-import { AmsHttp, OperatorService, UserService } from './service';
+import { AmsHttp, ApplicationService, OperatorService, UserService } from './service';
 
 export function httpFactory(backend: XHRBackend, options: RequestOptions) {
   return new AmsHttp(backend, options);
@@ -38,7 +38,9 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions) {
       useFactory: httpFactory,
       deps: [XHRBackend, RequestOptions]
     },
-    UserService, OperatorService,
+    UserService,
+    OperatorService,
+    ApplicationService,
   ],
   bootstrap: [AppComponent]
 })
