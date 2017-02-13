@@ -12,7 +12,7 @@ public interface PublisherService {
 
     User getPublisherByKey(String publisherKey);
 
-    User deletePublisherByKey(String publisherKey);
+    void deletePublisherByKey(String publisherKey);
 
     User updatePublisher(User publisher);
 }

@@ -33,8 +33,8 @@ public class OperatorServiceImpl implements OperatorService {
     }
 
     @Override
-    public User deleteOperatorByKey(String operatorKey) {
-        return userService.deleteUserByKey(operatorKey);
+    public void deleteOperatorByKey(String operatorKey) {
+        userService.deleteUserByKey(operatorKey);
     }
 
     @Override

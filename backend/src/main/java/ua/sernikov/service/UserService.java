@@ -18,7 +18,7 @@ public interface UserService {
 
     User getUserByKey(String userKey);
 
-    User deleteUserByKey(String userKey);
+    Long deleteUserByKey(String userKey);
 
     User updateUser(User user);
 }

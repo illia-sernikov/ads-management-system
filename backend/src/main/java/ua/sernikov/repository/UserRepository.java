@@ -20,7 +20,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     Collection<User> findAllByRole(UserRole role);
 
-    Optional<User> deleteByKey(String key);
+    Long deleteByKey(String key);
 
     @Modifying(clearAutomatically = true)
     @Query("update User u set u.name=?1, u.email=?2 where u.key=?3")

@@ -47,8 +47,8 @@ public class OperatorController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "{key}")
-    public User deleteOperator(@PathVariable("key") String operatorKey) {
+    public void deleteOperator(@PathVariable("key") String operatorKey) {
         Assert.hasText(operatorKey);
-        return operatorService.deleteOperatorByKey(operatorKey);
+        operatorService.deleteOperatorByKey(operatorKey);
     }
 }

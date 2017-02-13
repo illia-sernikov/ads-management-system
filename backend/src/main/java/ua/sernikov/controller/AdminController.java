@@ -51,8 +51,8 @@ public class AdminController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "{key}")
-    public User deleteUser(@PathParam("key") String userKey) {
+    public void deleteUser(@PathParam("key") String userKey) {
         Assert.hasText(userKey);
-        return userService.deleteUserByKey(userKey);
+        userService.deleteUserByKey(userKey);
     }
 }

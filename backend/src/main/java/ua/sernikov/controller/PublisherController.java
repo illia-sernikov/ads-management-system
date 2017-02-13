@@ -47,8 +47,8 @@ public class PublisherController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "{key}")
-    public User deletePublisher(@PathVariable("key") String publisherKey) {
+    public void deletePublisher(@PathVariable("key") String publisherKey) {
         Assert.hasText(publisherKey);
-        return publisherService.deletePublisherByKey(publisherKey);
+        publisherService.deletePublisherByKey(publisherKey);
     }
 }

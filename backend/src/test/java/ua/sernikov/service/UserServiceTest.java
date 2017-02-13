@@ -128,23 +128,24 @@ public class UserServiceTest {
         when(userRepositoryMock.findByEmail(anyString())).thenReturn(Optional.empty());
 
         User operator = userService.createUser(TEST_NAME, TEST_EMAIL, UserRole.OPERATOR);
-        when(userRepositoryMock.deleteByKey(operator.getKey())).thenReturn(Optional.of(operator));
+        when(userRepositoryMock.deleteByKey(operator.getKey())).thenReturn(1L);
 
-        User removedOperator = userService.deleteUserByKey(operator.getKey());
+        Long deletedCount = userService.deleteUserByKey(operator.getKey());
         List<User> operators = userService.getAllUsersByRole(UserRole.OPERATOR);
 
-        assertThat(removedOperator).isNotNull()
-                                   .isEqualTo(operator);
+        assertThat(deletedCount).isNotNull()
+                                .isEqualTo(1L);
         assertThat(operators).isEmpty();
         verify(userRepositoryMock).findAllByRole(UserRole.OPERATOR);
     }
 
     @Test
-    public void deleteUserByKey_ShouldGiveNull_WhenUserDoesNotExist() throws Exception {
-        when(userRepositoryMock.deleteByKey(anyString())).thenReturn(Optional.empty());
-        User removedUser = userService.deleteUserByKey(UUID.randomUUID().toString());
+    public void deleteUserByKey_ShouldGiveZero_WhenUserDoesNotExist() throws Exception {
+        when(userRepositoryMock.deleteByKey(anyString())).thenReturn(0L);
+        Long deletedCount = userService.deleteUserByKey(UUID.randomUUID().toString());
 
-        assertThat(removedUser).isNull();
+        assertThat(deletedCount).isNotNull()
+                                .isEqualTo(0L);
     }
 
     @Test(expected = IllegalArgumentException.class)
