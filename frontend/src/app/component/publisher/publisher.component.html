@@ -1,0 +1,7 @@
+<div>
+  <ams-create-application-form [publisherKey]="publisherKey"
+                               (onApplicationCreated)="onAppCreated($event)">
+  </ams-create-application-form>
+
+  <ams-application-list [applications]="applications"></ams-application-list>
+</div>

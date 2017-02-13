@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { AppRouterModule } from './app.router';
 import {
   AdminComponent, ApplicationListComponent, CreateApplicationFormComponent, CreateUserFormComponent, ErrorComponent, OperatorComponent,
-  UserListComponent
+  PublisherComponent, UserListComponent
 } from './component';
 import { AmsHttp, ApplicationService, OperatorService, UserService } from './service';
 
@@ -28,6 +28,7 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions) {
     OperatorComponent,
     CreateApplicationFormComponent,
     ApplicationListComponent,
+    PublisherComponent,
   ],
   imports: [
     BrowserModule,

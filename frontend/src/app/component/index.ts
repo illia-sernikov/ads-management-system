@@ -3,3 +3,4 @@ export { AdminComponent } from './admin/admin.component';
 export * from './form';
 export * from './list';
 export { OperatorComponent } from './operator/operator.component';
+export { PublisherComponent } from './publisher/publisher.component';
