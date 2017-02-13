@@ -1,6 +1,9 @@
 <div>
+  <ams-create-application-form [publishers]="publishers">
+  </ams-create-application-form>
+
   <ams-create-user-form [userRoles]="userRoles" (onUserCreated)="onOperatorCreated($event)">
   </ams-create-user-form>
 
-  <ams-user-list [users]="operators"></ams-user-list>
+  <ams-user-list [users]="publishers"></ams-user-list>
 </div>

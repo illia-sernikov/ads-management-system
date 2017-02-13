@@ -16,7 +16,7 @@ import { OperatorService, UserServiceInterface } from '../../service';
 })
 export class OperatorComponent implements OnInit, OnDestroy {
 
-  operators: User[] = [];
+  publishers: User[] = [];
   userRoles: UserRole[] = ['PUBLISHER'];
 
   private active = true;
@@ -27,7 +27,7 @@ export class OperatorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.operatorService.getAll()
         .takeWhile(() => this.active)
-        .subscribe(users => this.operators = users);
+        .subscribe(users => this.publishers = users);
   }
 
   ngOnDestroy(): void {
@@ -35,6 +35,6 @@ export class OperatorComponent implements OnInit, OnDestroy {
   }
 
   onOperatorCreated(operator: User): void {
-    this.operators.push(operator);
+    this.publishers.push(operator);
   }
 }
