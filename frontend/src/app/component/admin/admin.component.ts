@@ -2,12 +2,18 @@ import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/operator/toPromise';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { User, UserRole } from '../../domain';
-import { UserService } from '../../service';
+import { UserService, UserServiceInterface } from '../../service';
 
 @Component({
   selector: 'ams-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  styleUrls: ['./admin.component.css'],
+  providers: [
+    {
+      provide: 'UserServiceInterface',
+      useClass: UserService
+    }
+  ]
 })
 export class AdminComponent implements OnInit, OnDestroy {
 
@@ -20,7 +26,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userService.getAllUsers()
+    this.userService.getAll()
         .takeWhile(() => this.active)
         .subscribe(users => this.users = users);
   }

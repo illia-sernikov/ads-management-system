@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { User, UserRole } from '../../../domain';
-import { UserService } from '../../../service';
+import { UserServiceInterface } from '../../../service';
 
 @Component({
   selector: 'ams-create-user-form',
@@ -13,7 +13,7 @@ export class CreateUserFormComponent implements OnInit {
   @Input() userRoles: UserRole[] = [];
   @Output() onUserCreated: EventEmitter<User> = new EventEmitter();
 
-  constructor(private userService: UserService) {
+  constructor(@Inject('UserServiceInterface') private userService: UserServiceInterface) {
   }
 
   ngOnInit() {
@@ -22,7 +22,7 @@ export class CreateUserFormComponent implements OnInit {
   createUser(userForm: NgForm) {
     const newUser = userForm.value as User;
 
-    this.userService.createUser(newUser)
+    this.userService.create(newUser)
         .toPromise()
         .then(user => this.onUserCreated.emit(user));
 
