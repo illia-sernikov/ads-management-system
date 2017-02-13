@@ -1,9 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { UserService } from '../../service';
-import { User } from '../../domain';
 import 'rxjs/add/operator/takeWhile';
 import 'rxjs/add/operator/toPromise';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { User, UserRole } from '../../domain';
+import { UserService } from '../../service';
 
 @Component({
   selector: 'ams-admin',
@@ -13,6 +12,7 @@ import 'rxjs/add/operator/toPromise';
 export class AdminComponent implements OnInit, OnDestroy {
 
   users: User[] = [];
+  userRoles: UserRole[] = ['OPERATOR', 'PUBLISHER'];
 
   private active = true;
 
@@ -29,14 +29,8 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.active = false;
   }
 
-  createUser(userForm: NgForm) {
-    const newUser = userForm.value as User;
-
-    this.userService.createUser(newUser)
-        .toPromise()
-        .then(user => this.users.push(user));
-
-    userForm.reset();
+  onUserCreated(user: User): void {
+    this.users.push(user);
   }
 
 }

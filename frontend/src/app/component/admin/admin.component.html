@@ -1,34 +1,6 @@
 <div>
-  <md-card>
-    <md-card-title>Create user form</md-card-title>
-
-    <form novalidate #createUserForm="ngForm" (ngSubmit)="createUser(createUserForm)">
-      <md-card-content>
-        <md-input-container>
-          <input type="text" placeholder="Name" md-input ngModel name="name"
-                 required minlength="3" maxlength="50"/>
-        </md-input-container>
-
-        <md-input-container>
-          <input type="email" placeholder="Email" md-input ngModel name="email"
-                 required maxlength="50"/>
-        </md-input-container>
-
-        <md-select placeholder="User role" ngModel name="role" required>
-          <md-option [value]="'OPERATOR'">Operator</md-option>
-          <md-option [value]="'PUBLISHER'">Publisher</md-option>
-        </md-select>
-
-      </md-card-content>
-      <md-card-actions>
-        <button type="submit" md-button [color]="'primary'"
-                [disabled]="createUserForm.invalid">Create
-        </button>
-
-        <button type="button" md-button (click)="createUserForm.reset()">Clean</button>
-      </md-card-actions>
-    </form>
-  </md-card>
+  <ams-create-user-form [userRoles]="userRoles" (onUserCreated)="onUserCreated($event)">
+  </ams-create-user-form>
 
   <md-grid-list cols="5">
     <md-grid-tile *ngFor="let user of users">
