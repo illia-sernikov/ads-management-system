@@ -36,7 +36,7 @@ public class ApplicationController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "{key}")
-    public Application getApplication(@PathVariable String applicationKey) {
+    public Application getApplication(@PathVariable("key") String applicationKey) {
         Assert.hasText(applicationKey);
         return applicationService.getApplicationByKey(applicationKey);
     }
@@ -47,13 +47,13 @@ public class ApplicationController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "{key}")
-    public Application updateApplication(@PathVariable String applicationKey, @RequestBody @Valid Application application) {
+    public Application updateApplication(@PathVariable("key") String applicationKey, @RequestBody @Valid Application application) {
         Assert.hasText(applicationKey);
         return applicationService.updateApplication(application);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "{key}")
-    public Application deleteApplication(@PathVariable String applicationKey) {
+    public Application deleteApplication(@PathVariable("key") String applicationKey) {
         Assert.hasText(applicationKey);
         return applicationService.deleteApplication(applicationKey);
     }
