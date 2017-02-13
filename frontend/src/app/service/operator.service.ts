@@ -6,7 +6,7 @@ import { BASE_API_URL } from '../constants';
 import { User } from '../domain';
 import { UserServiceInterface } from './user-service.interface';
 
-const OPERATORS_API_URL = `${BASE_API_URL}/operators`;
+const PUBLISHERS_API_URL = `${BASE_API_URL}/publishers`;
 
 @Injectable()
 export class OperatorService implements UserServiceInterface {
@@ -15,23 +15,23 @@ export class OperatorService implements UserServiceInterface {
   }
 
   getAll(): Observable<User[]> {
-    return this.http.get(OPERATORS_API_URL)
+    return this.http.get(PUBLISHERS_API_URL)
                .map(response => response.json() as User[]);
   }
 
-  create(operator: User): Observable<User> {
-    return this.http.post(OPERATORS_API_URL, operator)
+  create(publisher: User): Observable<User> {
+    return this.http.post(PUBLISHERS_API_URL, publisher)
                .map(response => response.json() as User);
   }
 
-  update(operator: User): Observable<User> {
-    const url = `${OPERATORS_API_URL}/${operator.key}`;
-    return this.http.put(url, operator)
+  update(publisher: User): Observable<User> {
+    const url = `${PUBLISHERS_API_URL}/${publisher.key}`;
+    return this.http.put(url, publisher)
                .map(response => response.json() as User);
   }
 
-  delete(operator: User): Observable<User> {
-    const url = `${OPERATORS_API_URL}/${operator.key}`;
+  delete(publisher: User): Observable<User> {
+    const url = `${PUBLISHERS_API_URL}/${publisher.key}`;
     return this.http.delete(url)
                .map(response => response.json() as User);
   }
