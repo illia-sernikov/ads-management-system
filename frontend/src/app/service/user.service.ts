@@ -32,10 +32,10 @@ export class UserService implements UserServiceInterface {
                .map(response => response.json() as User);
   }
 
-  delete(user: User): Observable<User> {
+  delete(user: User): Observable<void> {
     const url = `${USERS_API_URL}/${user.key}`;
 
     return this.http.delete(url)
-               .map(response => response.json() as User);
+               .map(response => undefined);
   }
 }

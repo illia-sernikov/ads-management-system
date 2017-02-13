@@ -10,7 +10,7 @@ export interface UserServiceInterface {
 
   update(user: User): Observable<User>;
 
-  delete(user: User): Observable<User>;
+  delete(user: User): Observable<void>;
 }
 
 export const UserServiceInterface = new OpaqueToken('UserServiceInterface');

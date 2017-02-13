@@ -7,8 +7,8 @@
         <div>{{ user.role }}</div>
       </md-card-content>
       <md-card-actions>
-        <button type="button" md-button>Edit</button>
-        <button type="button" md-button>Delete</button>
+        <button type="button" md-button (click)="onEditUser(user)">Edit</button>
+        <button type="button" md-button (click)="onDeleteUser(user)">Delete</button>
       </md-card-actions>
     </md-card>
   </md-grid-tile>

@@ -30,9 +30,9 @@ export class OperatorService implements UserServiceInterface {
                .map(response => response.json() as User);
   }
 
-  delete(publisher: User): Observable<User> {
+  delete(publisher: User): Observable<void> {
     const url = `${PUBLISHERS_API_URL}/${publisher.key}`;
     return this.http.delete(url)
-               .map(response => response.json() as User);
+               .map(response => undefined);
   }
 }
