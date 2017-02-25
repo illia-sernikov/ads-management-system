@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
+import { isPresent } from '@angular/core/src/facade/lang';
 import { ConnectionBackend, Headers, Http, RequestOptions, RequestOptionsArgs, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { isPresent } from '@angular/core/src/facade/lang';
 import { Error } from '../domain';
-
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class AmsHttp extends Http {
@@ -39,6 +36,11 @@ export class AmsHttp extends Http {
   private getUpdatedOptions(options?: RequestOptionsArgs): RequestOptionsArgs {
     const headers = options ? new Headers(options.headers) : new Headers();
     headers.append('Content-Type', 'application/json');
+
+    let authToken = localStorage.getItem('authToken');
+    if (isPresent(authToken)) {
+      headers.append('Authorization', 'Basic ' + authToken);
+    }
 
     let updatedOptions = options;
 
