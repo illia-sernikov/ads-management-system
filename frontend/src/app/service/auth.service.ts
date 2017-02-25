@@ -6,7 +6,7 @@ import { Http } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { BASE_API_URL } from '../constants';
-import { Account, User } from '../domain';
+import { Account } from '../domain';
 
 const SIGNIN_API_URL = `${BASE_API_URL}/auth/signin`;
 
@@ -15,12 +15,12 @@ const AUTH_TOKEN_KEY = 'authToken';
 @Injectable()
 export class AuthService {
 
-  private userSubject: BehaviorSubject<User> = new BehaviorSubject(null);
+  private userSubject: BehaviorSubject<Account> = new BehaviorSubject(null);
 
   constructor(private http: Http) {
   }
 
-  getUserStream(): Observable<User> {
+  getUserStream(): Observable<Account> {
     return this.userSubject.asObservable();
   }
 
@@ -29,7 +29,7 @@ export class AuthService {
            && isPresent(localStorage.getItem(AUTH_TOKEN_KEY));
   }
 
-  signIn(authRequest: Account): Observable<User> {
+  signIn(authRequest: Account): Observable<Account> {
     this.http.post(SIGNIN_API_URL, authRequest)
         .map(response => response.text())
         .toPromise()
@@ -39,6 +39,7 @@ export class AuthService {
             let authToken = btoa(`${account.email}:${account.password}`);
             localStorage.setItem(AUTH_TOKEN_KEY, authToken);
           }
+          this.userSubject.next(account);
         });
 
     return this.getUserStream();

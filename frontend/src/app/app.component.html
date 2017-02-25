@@ -4,4 +4,14 @@
   <a md-tab-link [routerLink]="['/operator']">Operator</a>
 </nav>
 
+<header>
+  <div *ngIf="user$ | async">
+    <span>{{ (user$ | async)?.email }}</span>
+
+    <button type="button" md-button [color]="'primary'" (click)="signOut()">
+      Sign out
+    </button>
+  </div>
+</header>
+
 <router-outlet></router-outlet>
