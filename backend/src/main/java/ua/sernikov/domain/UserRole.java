@@ -1,5 +1,13 @@
 package ua.sernikov.domain;
 
-public enum UserRole {
-    ADMIN, OPERATOR, PUBLISHER
+import org.springframework.security.core.GrantedAuthority;
+
+public enum UserRole implements GrantedAuthority {
+    ADMIN, OPERATOR, PUBLISHER;
+
+
+    @Override
+    public String getAuthority() {
+        return "ROLE_" + name();
+    }
 }
