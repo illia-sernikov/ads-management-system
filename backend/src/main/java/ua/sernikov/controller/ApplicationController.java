@@ -2,6 +2,7 @@ package ua.sernikov.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import ua.sernikov.domain.Application;
@@ -24,6 +25,7 @@ public class ApplicationController {
         this.applicationService = applicationService;
     }
 
+    @Secured("ROLE_OPERATOR")
     @RequestMapping(method = RequestMethod.GET)
     public List<Application> getAllApplications() {
         return applicationService.getAllApplications();
