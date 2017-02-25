@@ -1,7 +1,12 @@
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent, ErrorComponent, OperatorComponent, PublisherComponent } from './component';
+import { LoginFormComponent } from './component/form/login/login-form.component';
 
 const routes: Routes = [
+  {
+    path: 'login',
+    component: LoginFormComponent
+  },
   {
     path: 'admin',
     component: AdminComponent
@@ -16,7 +21,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/admin',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
   {

@@ -1,12 +1,12 @@
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/toPromise";
-import { Injectable } from "@angular/core";
-import { isPresent } from "@angular/core/src/facade/lang";
-import { Http } from "@angular/http";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { Observable } from "rxjs/Observable";
-import { BASE_API_URL } from "../constants";
-import { Account, User } from "../domain";
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
+import { Injectable } from '@angular/core';
+import { isPresent } from '@angular/core/src/facade/lang';
+import { Http } from '@angular/http';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import { BASE_API_URL } from '../constants';
+import { Account, User } from '../domain';
 
 const SIGNIN_API_URL = `${BASE_API_URL}/auth/signin`;
 
