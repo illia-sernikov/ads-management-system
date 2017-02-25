@@ -1,6 +1,7 @@
 package ua.sernikov.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ua.sernikov.domain.NewUserRequest;
@@ -21,13 +22,16 @@ public class UserServiceImpl implements UserService {
     private String uuidRegex = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[34][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}";
 
     private UserRepository userRepository;
+    private AccountService accountService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, AccountService accountService) {
         this.userRepository = userRepository;
+        this.accountService = accountService;
     }
 
     @Override
+    @Secured({"ROLE_ADMIN", "ROLE_OPERATOR"})
     public User createUser(String name, String email, UserRole role) {
         Assert.hasText(email, "Email should be specified");
 
@@ -37,6 +41,8 @@ public class UserServiceImpl implements UserService {
 
         User user = new User(name, email, role);
         user.setKey(UUID.randomUUID().toString());
+
+        accountService.signUp(email, role);
 
         return userRepository.save(user);
     }

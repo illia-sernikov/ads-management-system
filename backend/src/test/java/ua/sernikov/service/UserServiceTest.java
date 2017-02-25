@@ -29,6 +29,7 @@ public class UserServiceTest {
 
     private UserService userService;
     private UserRepository userRepositoryMock;
+    private AccountService accountServiceMock;
 
     private final String TEST_NAME = "test";
     private final String TEST_EMAIL = "test@mail.com";
@@ -36,7 +37,8 @@ public class UserServiceTest {
     @Before
     public void setUp() throws Exception {
         userRepositoryMock = Mockito.mock(UserRepository.class);
-        userService = new UserServiceImpl(userRepositoryMock);
+        accountServiceMock = Mockito.mock(AccountService.class);
+        userService = new UserServiceImpl(userRepositoryMock, accountServiceMock);
     }
 
     @Test
