@@ -11,6 +11,7 @@ import { Account } from '../domain';
 const SIGNIN_API_URL = `${BASE_API_URL}/auth/signin`;
 
 const AUTH_TOKEN_KEY = 'authToken';
+const CURRENT_USER_KEY = 'currentUser';
 
 @Injectable()
 export class AuthService {
@@ -18,6 +19,7 @@ export class AuthService {
   private userSubject: BehaviorSubject<Account> = new BehaviorSubject(null);
 
   constructor(private http: Http) {
+    this.signInAtStartUp();
   }
 
   getUserStream(): Observable<Account> {
@@ -34,9 +36,11 @@ export class AuthService {
         .map(response => response.text())
         .toPromise()
         .then(token => {
-          let account = this.decodeToken(token);
+          const account = this.decodeToken(token);
+          localStorage.setItem(CURRENT_USER_KEY, token);
+
           if (account) {
-            let authToken = btoa(`${account.email}:${account.password}`);
+            const authToken = btoa(`${account.email}:${account.password}`);
             localStorage.setItem(AUTH_TOKEN_KEY, authToken);
           }
           this.userSubject.next(account);
@@ -48,7 +52,15 @@ export class AuthService {
   signOut(): Observable<null> {
     this.userSubject.next(null);
     localStorage.removeItem(AUTH_TOKEN_KEY);
+    localStorage.removeItem(CURRENT_USER_KEY);
     return this.getUserStream();
+  }
+
+  private signInAtStartUp(): void {
+    const userToken = localStorage.getItem(CURRENT_USER_KEY);
+    if (isPresent(userToken)) {
+      this.userSubject.next(this.decodeToken(userToken));
+    }
   }
 
   private decodeToken(token: string): Account {
