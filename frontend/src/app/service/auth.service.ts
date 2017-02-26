@@ -3,6 +3,7 @@ import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 import { isPresent } from '@angular/core/src/facade/lang';
 import { Http } from '@angular/http';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { BASE_API_URL } from '../constants';
@@ -18,7 +19,7 @@ export class AuthService {
 
   private userSubject: BehaviorSubject<Account> = new BehaviorSubject(null);
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private router: Router) {
     this.signInAtStartUp();
   }
 
@@ -28,7 +29,7 @@ export class AuthService {
 
   isSignedIn(): boolean {
     return isPresent(this.userSubject.getValue())
-           && isPresent(localStorage.getItem(AUTH_TOKEN_KEY));
+           && isPresent(localStorage.getItem(CURRENT_USER_KEY));
   }
 
   signIn(authRequest: Account): Observable<Account> {
@@ -37,13 +38,15 @@ export class AuthService {
         .toPromise()
         .then(token => {
           const account = this.decodeToken(token);
-          localStorage.setItem(CURRENT_USER_KEY, token);
 
           if (account) {
             const authToken = btoa(`${account.email}:${account.password}`);
             localStorage.setItem(AUTH_TOKEN_KEY, authToken);
+            localStorage.setItem(CURRENT_USER_KEY, token);
           }
+
           this.userSubject.next(account);
+          this.redirectToUserHome(account);
         });
 
     return this.getUserStream();
@@ -53,6 +56,7 @@ export class AuthService {
     this.userSubject.next(null);
     localStorage.removeItem(AUTH_TOKEN_KEY);
     localStorage.removeItem(CURRENT_USER_KEY);
+    this.redirectToUserHome(null);
     return this.getUserStream();
   }
 
@@ -69,5 +73,27 @@ export class AuthService {
       return JSON.parse(json);
     }
     return null;
+  }
+
+  private redirectToUserHome(account: Account): void {
+    let url = '/';
+
+    if (isPresent(account)) {
+      const userRole = account.role;
+
+      switch (userRole) {
+        case 'ADMIN':
+          url = 'admin';
+          break;
+        case 'OPERATOR':
+          url = '/operator';
+          break;
+        case 'PUBLISHER':
+          url = '/publisher/' + 42;
+          break;
+      }
+    }
+
+    this.router.navigate([url]);
   }
 }
