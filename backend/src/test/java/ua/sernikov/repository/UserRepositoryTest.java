@@ -25,10 +25,11 @@ public class UserRepositoryTest {
 
     private final String TEST_NAME = "test";
     private final String TEST_EMAIL = TEST_NAME + "@mail.com";
+    private final String TEST_PASSWORD = "123456";
 
     @Test
     public void updateByKey_ShouldUpdateNameAndEmail() throws Exception {
-        User operator = new User(TEST_NAME, TEST_EMAIL, UserRole.OPERATOR);
+        User operator = new User(TEST_NAME, TEST_EMAIL, TEST_PASSWORD, UserRole.OPERATOR);
         operator.setKey(UUID.randomUUID().toString());
         entityManager.persistAndFlush(operator);
 
@@ -51,7 +52,7 @@ public class UserRepositoryTest {
 
     @Test
     public void updateByKey_ShouldNotUpdate_WhenUserDoesNotExist() throws Exception {
-        User operator = new User(TEST_NAME, TEST_EMAIL, UserRole.OPERATOR);
+        User operator = new User(TEST_NAME, TEST_EMAIL, TEST_PASSWORD, UserRole.OPERATOR);
         operator.setKey(UUID.randomUUID().toString());
         entityManager.persistAndFlush(operator);
 

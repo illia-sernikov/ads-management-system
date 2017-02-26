@@ -2,6 +2,7 @@ package ua.sernikov.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ua.sernikov.domain.NewUserRequest;
@@ -20,14 +21,13 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private String uuidRegex = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[34][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}";
+    private final String randomPassword = BCrypt.hashpw("123456", BCrypt.gensalt());
 
     private UserRepository userRepository;
-    private AccountService accountService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, AccountService accountService) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.accountService = accountService;
     }
 
     @Override
@@ -41,8 +41,7 @@ public class UserServiceImpl implements UserService {
 
         User user = new User(name, email, role);
         user.setKey(UUID.randomUUID().toString());
-
-        accountService.signUp(email, role);
+        user.setPassword(randomPassword);
 
         return userRepository.save(user);
     }

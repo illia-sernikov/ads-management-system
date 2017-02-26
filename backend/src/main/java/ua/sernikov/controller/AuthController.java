@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import ua.sernikov.domain.Account;
+import ua.sernikov.domain.User;
 import ua.sernikov.service.AccountService;
 
 import javax.validation.Valid;
@@ -23,8 +23,8 @@ public class AuthController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/signin")
-    public String signIn(@RequestBody @Valid Account account) {
-        Assert.notNull(account);
-        return accountService.signIn(account);
+    public String signIn(@RequestBody @Valid User user) {
+        Assert.notNull(user);
+        return accountService.signIn(user);
     }
 }

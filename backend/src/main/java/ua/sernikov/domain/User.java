@@ -24,14 +24,17 @@ public class User {
     private String key;
 
     @Column(nullable = false)
-    @NotBlank
-    @Size(min = 3, max = 50)
     private String name;
 
     @Column(unique = true, nullable = false)
     @NotBlank
     @Size(max = 50)
     private String email;
+
+    @Column(nullable = false)
+    @NotBlank
+    @Size(min = 5, max = 255)
+    private String password;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -45,6 +48,11 @@ public class User {
         this.name = name;
         this.email = email;
         this.role = role;
+    }
+
+    public User(String name, String email, String password, UserRole userRole) {
+        this(name, email, userRole);
+        this.password = password;
     }
 
     public void setId(Long id) {
@@ -75,6 +83,14 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @JsonGetter
     public UserRole getRole() {
         return role;
@@ -90,6 +106,7 @@ public class User {
                        .append("key", key)
                        .append("name", name)
                        .append("email", email)
+                       .append("password", password)
                        .append("role", role)
                        .toString();
     }
