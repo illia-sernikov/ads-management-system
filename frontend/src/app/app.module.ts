@@ -8,10 +8,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { AppRouterModule } from './app.router';
 import {
-  AdminComponent, ApplicationListComponent, CreateApplicationFormComponent, CreateUserFormComponent, ErrorComponent,
+  AdminComponent, ApplicationListComponent, CreateApplicationFormComponent, CreateUserFormComponent, ErrorComponent, LoginFormComponent,
   OperatorComponent, PublisherComponent, UserListComponent
 } from './component';
-import { LoginFormComponent } from './component/form/login/login-form.component';
+import { AuthGuard } from './guards';
 import { AmsHttp, ApplicationService, AuthService, OperatorService, UserService } from './service';
 
 export function httpFactory(backend: XHRBackend, options: RequestOptions) {
@@ -50,6 +50,7 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions) {
     OperatorService,
     ApplicationService,
     AuthService,
+    AuthGuard,
   ],
   bootstrap: [AppComponent]
 })
