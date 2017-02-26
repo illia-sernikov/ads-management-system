@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { BASE_API_URL } from '../constants';
-import { Account } from '../domain';
+import { User } from '../domain';
 
 const SIGNIN_API_URL = `${BASE_API_URL}/auth/signin`;
 
@@ -17,13 +17,13 @@ const CURRENT_USER_KEY = 'currentUser';
 @Injectable()
 export class AuthService {
 
-  private userSubject: BehaviorSubject<Account> = new BehaviorSubject(null);
+  private userSubject: BehaviorSubject<User> = new BehaviorSubject(null);
 
   constructor(private http: Http, private router: Router) {
     this.signInAtStartUp();
   }
 
-  getUserStream(): Observable<Account> {
+  getUserStream(): Observable<User> {
     return this.userSubject.asObservable();
   }
 
@@ -32,7 +32,7 @@ export class AuthService {
            && isPresent(localStorage.getItem(CURRENT_USER_KEY));
   }
 
-  signIn(authRequest: Account): Observable<Account> {
+  signIn(authRequest: User): Observable<User> {
     this.http.post(SIGNIN_API_URL, authRequest)
         .map(response => response.text())
         .toPromise()
@@ -67,7 +67,7 @@ export class AuthService {
     }
   }
 
-  private decodeToken(token: string): Account {
+  private decodeToken(token: string): User {
     if (token) {
       const json = atob(token);
       return JSON.parse(json);
@@ -75,11 +75,11 @@ export class AuthService {
     return null;
   }
 
-  private redirectToUserHome(account: Account): void {
+  private redirectToUserHome(user: User): void {
     let url = '/';
 
-    if (isPresent(account)) {
-      const userRole = account.role;
+    if (isPresent(user)) {
+      const userRole = user.role;
 
       switch (userRole) {
         case 'ADMIN':
@@ -89,7 +89,7 @@ export class AuthService {
           url = '/operator';
           break;
         case 'PUBLISHER':
-          url = '/publisher/' + 42;
+          url = '/publisher/' + user.key;
           break;
       }
     }

@@ -1,6 +1,6 @@
 <header>
   <div *ngIf="user$ | async">
-    <span>{{ (user$ | async)?.email }}</span>
+    <span>{{ (user$ | async).name }}</span>
 
     <button type="button" md-button [color]="'primary'" (click)="signOut()">
       Sign out

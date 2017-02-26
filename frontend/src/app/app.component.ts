@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Account } from './domain/user.interface';
+import { User } from './domain';
 import { AuthService } from './service/auth.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { AuthService } from './service/auth.service';
 })
 export class AppComponent implements OnInit {
 
-  user$: Observable<Account>;
+  user$: Observable<User>;
 
   constructor(private authService: AuthService) {
   }
