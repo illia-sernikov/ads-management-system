@@ -1,8 +1,10 @@
 import 'rxjs/add/operator/takeWhile';
+import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Application } from '../../domain';
 import { ApplicationService } from '../../service';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'ams-publisher',
@@ -17,7 +19,9 @@ export class PublisherComponent implements OnInit, OnDestroy {
   private active = true;
 
   constructor(private route: ActivatedRoute,
-              private appService: ApplicationService) {
+              private appService: ApplicationService,
+              private location: Location,
+              private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -34,5 +38,13 @@ export class PublisherComponent implements OnInit, OnDestroy {
 
   onAppCreated(app: Application): void {
     this.applications.push(app);
+  }
+
+  isVisibleBackButton(): boolean {
+    return this.authService.isOperator();
+  }
+
+  onBack(): void {
+    this.location.back();
   }
 }

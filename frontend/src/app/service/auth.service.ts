@@ -60,6 +60,14 @@ export class AuthService {
     return this.getUserStream();
   }
 
+  isOperator(): boolean {
+    return this.isSignedIn() && this.userSubject.getValue().role === 'OPERATOR';
+  }
+
+  isPublisher(): boolean {
+    return this.isSignedIn() && this.userSubject.getValue().role === 'PUBLISHER';
+  }
+
   private signInAtStartUp(): void {
     const userToken = localStorage.getItem(CURRENT_USER_KEY);
     if (isPresent(userToken)) {

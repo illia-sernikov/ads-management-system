@@ -1,4 +1,9 @@
 <div>
+  <button *ngIf="isVisibleBackButton()" type="button" md-button [color]="'primary'"
+          (click)="onBack()">
+    Back
+  </button>
+
   <ams-create-application-form [publisherKey]="publisherKey"
                                (onApplicationCreated)="onAppCreated($event)">
   </ams-create-application-form>
