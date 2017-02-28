@@ -1,6 +1,9 @@
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent, ErrorComponent, OperatorComponent, PublisherComponent } from './component';
 import { LoginFormComponent } from './component/form/login/login-form.component';
+import { AuthAdminGuard } from './guards/auth-admin.guard';
+import { AuthOperatorGuard } from './guards/auth-operator.guard';
+import { AuthPublisherGuard } from './guards/auth-publisher.guard';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -11,17 +14,17 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AuthAdminGuard]
   },
   {
     path: 'operator',
     component: OperatorComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AuthOperatorGuard]
   },
   {
     path: 'publisher/:key',
     component: PublisherComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, AuthPublisherGuard]
   },
   {
     path: '',

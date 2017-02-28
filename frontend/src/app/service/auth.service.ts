@@ -60,6 +60,10 @@ export class AuthService {
     return this.getUserStream();
   }
 
+  isAdmin(): boolean {
+    return this.isSignedIn() && this.userSubject.getValue().role === 'ADMIN';
+  }
+
   isOperator(): boolean {
     return this.isSignedIn() && this.userSubject.getValue().role === 'OPERATOR';
   }

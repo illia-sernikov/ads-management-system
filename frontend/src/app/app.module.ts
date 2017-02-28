@@ -11,7 +11,7 @@ import {
   AdminComponent, ApplicationListComponent, CreateApplicationFormComponent, CreateUserFormComponent, ErrorComponent, LoginFormComponent,
   OperatorComponent, PublisherComponent, UserListComponent
 } from './component';
-import { AuthGuard } from './guards';
+import { AuthAdminGuard, AuthGuard, AuthOperatorGuard, AuthPublisherGuard } from './guards';
 import { AmsHttp, ApplicationService, AuthService, OperatorService, UserService } from './service';
 
 export function httpFactory(backend: XHRBackend, options: RequestOptions) {
@@ -50,7 +50,11 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions) {
     OperatorService,
     ApplicationService,
     AuthService,
+
     AuthGuard,
+    AuthAdminGuard,
+    AuthOperatorGuard,
+    AuthPublisherGuard,
   ],
   bootstrap: [AppComponent]
 })
