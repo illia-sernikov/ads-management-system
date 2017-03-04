@@ -1,11 +1,11 @@
-<md-card class="new-user-form">
-  <md-card-title class="new-user-form__title">
+<md-card class="new-user-form form">
+  <md-card-title class="form__title">
     <md-icon>person_add</md-icon>
     <span>Add new user</span>
   </md-card-title>
 
   <form novalidate #createUserForm="ngForm" (ngSubmit)="createUser(createUserForm)">
-    <md-card-content class="new-user-form__inputs inputs">
+    <md-card-content class="form__inputs inputs">
       <md-input-container class="inputs__input">
         <input type="text" placeholder="Name" md-input ngModel name="name"
                required minlength="3" maxlength="50"/>
@@ -23,7 +23,7 @@
       </md-select>
     </md-card-content>
 
-    <md-card-actions class="new-user-form__buttons">
+    <md-card-actions class="form__buttons">
       <button type="submit" md-raised-button [color]="'primary'"
               [disabled]="createUserForm.invalid">
         <md-icon>add</md-icon>

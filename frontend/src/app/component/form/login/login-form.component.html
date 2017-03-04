@@ -1,20 +1,20 @@
-<md-card class="signin-form">
-  <md-card-title class="signin-form__title">Welcome</md-card-title>
+<md-card class="signin-form form">
+  <md-card-title class="form__title">Welcome</md-card-title>
 
   <form novalidate #signinForm="ngForm" (ngSubmit)="onSignIn(signinForm)">
-    <md-card-content class="signin-form__inputs">
-      <md-input-container>
+    <md-card-content class="form__inputs inputs">
+      <md-input-container class="inputs__input">
         <input type="email" placeholder="Email" md-input ngModel name="email"
                required maxlength="50"/>
       </md-input-container>
 
-      <md-input-container>
+      <md-input-container class="inputs__input">
         <input type="password" placeholder="Password" md-input ngModel name="password"
                required minlength="5" maxlength="50"/>
       </md-input-container>
     </md-card-content>
 
-    <md-card-actions class="signin-form__buttons">
+    <md-card-actions class="form__buttons">
       <button type="submit" md-raised-button [disabled]="signinForm.invalid" [color]="'primary'">
         <md-icon>exit_to_app</md-icon>
         Sign in

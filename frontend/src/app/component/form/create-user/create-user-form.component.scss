@@ -1,31 +1,6 @@
+@import "../shared/form-style";
+
 .new-user-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   margin-top: 20px;
-
-  &__title {
-    display: flex;
-    align-items: center;
-  }
-
-  &__buttons {
-    display: flex;
-    justify-content: space-around;
-    margin: 0;
-  }
-}
-
-.inputs {
-  display: flex;
-  align-items: center;
-
-  &__input {
-    width: 150px;
-    margin: 0 15px;
-  }
-
-  &__select {
-    margin: 16px 0;
-  }
+  width: 600px;
 }

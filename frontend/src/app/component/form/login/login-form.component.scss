@@ -1,19 +1,7 @@
+@import "../shared/form-style";
+
 .signin-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 300px;
   margin-top: 40px;
-
-  &__inputs {
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__buttons {
-    display: flex;
-    justify-content: center;
-  }
 
   &__tip {
     display: flex;
