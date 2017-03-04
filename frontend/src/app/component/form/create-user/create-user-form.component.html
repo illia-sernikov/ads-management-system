@@ -1,32 +1,39 @@
-<md-card>
-  <md-card-title>Create user form</md-card-title>
+<md-card class="new-user-form">
+  <md-card-title class="new-user-form__title">
+    <md-icon>person_add</md-icon>
+    <span>Add new user</span>
+  </md-card-title>
 
   <form novalidate #createUserForm="ngForm" (ngSubmit)="createUser(createUserForm)">
-    <md-card-content>
-      <md-input-container>
+    <md-card-content class="new-user-form__inputs inputs">
+      <md-input-container class="inputs__input">
         <input type="text" placeholder="Name" md-input ngModel name="name"
                required minlength="3" maxlength="50"/>
       </md-input-container>
 
-      <md-input-container>
+      <md-input-container class="inputs__input">
         <input type="email" placeholder="Email" md-input ngModel name="email"
                required maxlength="50"/>
       </md-input-container>
 
-      <md-select placeholder="User role" ngModel name="role" required>
+      <md-select class="inputs__input inputs__select" placeholder="User role" ngModel name="role" required>
         <md-option *ngFor="let role of userRoles" [value]="role">
           {{ role }}
         </md-option>
       </md-select>
-
     </md-card-content>
-    <md-card-actions>
-      <button type="submit" md-button [color]="'primary'"
+
+    <md-card-actions class="new-user-form__buttons">
+      <button type="submit" md-raised-button [color]="'primary'"
               [disabled]="createUserForm.invalid">
+        <md-icon>add</md-icon>
         Create
       </button>
 
-      <button type="button" md-button (click)="createUserForm.reset()">Clean</button>
+      <button type="button" md-raised-button (click)="createUserForm.reset()">
+        <md-icon>clear</md-icon>
+        Clean
+      </button>
     </md-card-actions>
   </form>
 </md-card>
