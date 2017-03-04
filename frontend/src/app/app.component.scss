@@ -1,0 +1,20 @@
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  &__logo {
+    display: flex;
+    align-items: center;
+  }
+
+  &__signin-info {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.content-container {
+  display: flex;
+  justify-content: center;
+}

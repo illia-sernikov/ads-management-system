@@ -1,2 +1,9 @@
 @import "~normalize.css/normalize.css";
 @import "theme.scss";
+
+body {
+  background: #fafafa;
+  font-size: 18px;
+  font-weight: 400;
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+}

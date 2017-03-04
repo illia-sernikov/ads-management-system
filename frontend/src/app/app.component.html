@@ -1,11 +1,20 @@
-<header>
-  <div *ngIf="user$ | async">
-    <span>{{ (user$ | async).name }}</span>
+<md-toolbar>
+  <div class="toolbar">
+    <div class="toolbar__logo">
+      <md-icon>trending_up</md-icon>
+      <div>Ads management system</div>
+    </div>
 
-    <button type="button" md-button [color]="'primary'" (click)="signOut()">
-      Sign out
-    </button>
+    <div *ngIf="user$ | async" class="toolbar__signin-info">
+      <span>{{ (user$ | async).name }}</span>
+
+      <button type="button" md-button [color]="'primary'" (click)="signOut()">
+        Sign out
+      </button>
+    </div>
   </div>
-</header>
+</md-toolbar>
 
-<router-outlet></router-outlet>
+<main class="content-container">
+  <router-outlet></router-outlet>
+</main>
