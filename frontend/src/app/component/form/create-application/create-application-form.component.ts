@@ -8,7 +8,7 @@ import { ApplicationService } from '../../../service';
 @Component({
   selector: 'ams-create-application-form',
   templateUrl: 'create-application-form.component.html',
-  styleUrls: ['create-application-form.component.css']
+  styleUrls: ['create-application-form.component.scss']
 })
 export class CreateApplicationFormComponent {
 

@@ -1,41 +1,44 @@
-<md-card>
-  <md-card-title>Create application form</md-card-title>
+<md-card class="new-app-form form">
+  <md-card-title class="form__title">
+    <md-icon>add_circle_outline</md-icon>
+    Add new application
+  </md-card-title>
 
   <form novalidate #createAppForm="ngForm" (ngSubmit)="createApp(createAppForm)">
-    <md-card-content>
-      <md-input-container>
-        <input type="text" placeholder="Name" md-input ngModel name="name"
-               required minlength="2" maxlength="255"/>
-      </md-input-container>
+    <md-card-content class="form__inputs inputs">
+      <div class="new-app-form__input-row">
+        <md-input-container class="inputs__input">
+          <input type="text" placeholder="Name" md-input ngModel name="name"
+                 required minlength="2" maxlength="255"/>
+        </md-input-container>
 
-      <md-select placeholder="Application type" ngModel name="type" required>
-        <md-option *ngFor="let appType of appTypes" [value]="appType">
-          {{ appType }}
-        </md-option>
-      </md-select>
+        <md-select class="inputs__select" placeholder="Application type" ngModel name="type" required>
+          <md-option *ngFor="let appType of appTypes" [value]="appType">
+            {{ appType }}
+          </md-option>
+        </md-select>
 
-      <md-select *ngIf="publishers.length > 0" placeholder="Publisher" ngModel name="publisherKey" required>
-        <md-option *ngFor="let publisher of publishers" [value]="publisher.key">
-          {{ publisher.name }}
-        </md-option>
-      </md-select>
+        <md-select class="inputs__select" *ngIf="publishers.length > 0" placeholder="Publisher" ngModel name="publisherKey" required>
+          <md-option *ngFor="let publisher of publishers" [value]="publisher.key">
+            {{ publisher.name }}
+          </md-option>
+        </md-select>
+      </div>
 
-      <section>
+      <div class="new-app-form__input-row">
         <md-checkbox *ngFor="let contentType of contentTypes" [name]="contentType"
                      (change)="onContentTypeSelected($event)">
           {{ contentType }}
         </md-checkbox>
-      </section>
-
+      </div>
     </md-card-content>
 
-    <md-card-actions>
-      <button type="submit" md-button [color]="'primary'"
-              [disabled]="createAppForm.invalid">
+    <md-card-actions class="form__buttons">
+      <button type="submit" md-raised-button [color]="'primary'" [disabled]="createAppForm.invalid">
         Create
       </button>
 
-      <button type="button" md-button (click)="createAppForm.reset()">Clean</button>
+      <button type="button" md-raised-button (click)="createAppForm.reset()">Clean</button>
     </md-card-actions>
   </form>
 </md-card>
