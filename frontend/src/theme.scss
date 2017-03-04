@@ -1,0 +1,10 @@
+@import '~@angular/material/core/theming/all-theme';
+
+@include md-core();
+
+$ams-app-primary: md-palette($md-teal);
+$ams-app-accent: md-palette($md-orange, A200, A100, A400);
+$ams-app-warn: md-palette($md-red);
+$ams-app-theme: md-light-theme($ams-app-primary, $ams-app-accent, $ams-app-warn);
+
+@include angular-material-theme($ams-app-theme);

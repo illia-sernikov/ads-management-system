@@ -19,9 +19,7 @@
       "tsconfig": "tsconfig.json",
       "prefix": "ams",
       "styles": [
-        "styles.css",
-        "../node_modules/normalize.css/normalize.css",
-        "../node_modules/@angular/material/core/theming/prebuilt/deeppurple-amber.css"
+        "styles.scss"
       ],
       "scripts": [],
       "environments": {
@@ -52,7 +50,7 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
+    "styleExt": "scss",
     "prefixInterfaces": false,
     "inline": {
       "style": false,
