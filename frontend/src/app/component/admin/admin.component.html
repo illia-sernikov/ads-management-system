@@ -1,6 +1,4 @@
-<div>
-  <ams-create-user-form [userRoles]="userRoles" (onUserCreated)="onUserCreated($event)">
-  </ams-create-user-form>
+<ams-create-user-form [userRoles]="userRoles" (onUserCreated)="onUserCreated($event)">
+</ams-create-user-form>
 
-  <ams-user-list [users]="users"></ams-user-list>
-</div>
+<ams-user-list [users]="users"></ams-user-list>
