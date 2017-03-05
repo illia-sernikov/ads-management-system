@@ -1,0 +1,41 @@
+.users-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  &__item {
+    margin: {
+      top: 10px;
+      right: 10px;
+    }
+  }
+}
+
+.user-card {
+  width: 300px;
+
+  &__labels {
+    font-size: 18px;
+    padding: {
+      left: 50px;
+      bottom: 15px;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-around;
+  }
+}
+
+.label {
+  display: flex;
+
+  &__name {
+    flex-basis: 80px;
+  }
+
+  &__value {
+    font-style: italic;
+  }
+}
