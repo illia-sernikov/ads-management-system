@@ -1,12 +1,11 @@
-<div>
-  <button *ngIf="isVisibleBackButton()" type="button" md-button [color]="'primary'"
-          (click)="onBack()">
-    Back
-  </button>
+<button *ngIf="isVisibleBackButton()" type="button" class="back-button" md-button
+        [color]="'primary'" (click)="onBack()">
+  <md-icon>arrow_back</md-icon>
+  Back
+</button>
 
-  <ams-create-application-form [publisherKey]="publisherKey"
-                               (onApplicationCreated)="onAppCreated($event)">
-  </ams-create-application-form>
+<ams-create-application-form [publisherKey]="publisherKey"
+                             (onApplicationCreated)="onAppCreated($event)">
+</ams-create-application-form>
 
-  <ams-application-list [applications]="applications"></ams-application-list>
-</div>
+<ams-application-list [applications]="applications"></ams-application-list>

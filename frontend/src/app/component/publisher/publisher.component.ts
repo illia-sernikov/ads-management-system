@@ -9,7 +9,7 @@ import { AuthService } from '../../service/auth.service';
 @Component({
   selector: 'ams-publisher',
   templateUrl: './publisher.component.html',
-  styleUrls: ['./publisher.component.css']
+  styleUrls: ['./publisher.component.scss']
 })
 export class PublisherComponent implements OnInit, OnDestroy {
 
