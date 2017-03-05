@@ -6,7 +6,7 @@ import { ApplicationService } from '../../../service';
 @Component({
   selector: 'ams-application-list',
   templateUrl: 'application-list.component.html',
-  styleUrls: ['application-list.component.css']
+  styleUrls: ['application-list.component.scss']
 })
 export class ApplicationListComponent {
 

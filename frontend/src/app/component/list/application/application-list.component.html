@@ -1,24 +1,43 @@
-<md-grid-list cols="5">
-  <md-grid-tile *ngFor="let app of applications">
-    <md-card>
-      <md-card-content>
-        <div>{{ app.name }}</div>
-        <div>{{ app.type }}</div>
-        <div *ngFor="let contentType of app.contentTypes">
-          {{ contentType }}
-        </div>
+<div class="apps-list">
+  <md-card *ngFor="let app of applications" class="apps-list__item app-card" [ngClass]="app.type | lowercase">
+    <md-card-title class="app-card__title">
+      <md-icon *ngIf="app.type === 'WEBSITE'">web</md-icon>
+      <md-icon *ngIf="app.type === 'ANDROID'">phone_android</md-icon>
+      <md-icon *ngIf="app.type === 'IOS'">phone_iphone</md-icon>
+      {{ app.type }}
+    </md-card-title>
 
-        <div>
-          <span>Owner:</span>
-          <div>{{ app.owner.name }}</div>
-          <div>{{ app.owner.email }}</div>
-        </div>
-      </md-card-content>
+    <md-card-content>
+      <div class="app-card__labels label">
+        <span class="label__name">Name:</span>
+        <span class="label__value">{{ app.name }}</span>
+      </div>
 
-      <md-card-actions>
-        <!--<button type="button" md-button (click)="onEditApp(app)">Edit</button>-->
-        <button type="button" md-button (click)="onDeleteApp(app)">Delete</button>
-      </md-card-actions>
-    </md-card>
-  </md-grid-tile>
-</md-grid-list>
+      <div class="app-card__labels label">
+        <span class="label__name">Owner:</span>
+        <span class="label__value">{{ app.owner.name }}</span>
+      </div>
+
+      <div class="app-card__labels label">
+        <span class="label__name">Content:</span>
+        <div class="label__value app-types">
+          <span *ngFor="let type of app.contentTypes">
+            {{ type }}
+          </span>
+        </div>
+      </div>
+    </md-card-content>
+
+    <md-card-actions class="app-card__buttons">
+      <button type="button" md-raised-button [color]="'primary'" (click)="onEditApp(app)">
+        <md-icon>edit</md-icon>
+        Edit
+      </button>
+
+      <button type="button" md-raised-button [color]="'warn'" (click)="onDeleteApp(app)">
+        <md-icon>delete</md-icon>
+        Delete
+      </button>
+    </md-card-actions>
+  </md-card>
+</div>
