@@ -4,6 +4,7 @@ import { isPresent } from '@angular/core/src/facade/lang';
 import { Router } from '@angular/router';
 import { User } from '../../../domain';
 import { UserServiceInterface } from '../../../service';
+import { ErrorService } from '../../../service/error.service';
 
 @Component({
   selector: 'ams-user-list',
@@ -15,7 +16,7 @@ export class UserListComponent implements OnInit {
   @Input() users: User[] = [];
 
   constructor(@Inject(UserServiceInterface) private userService: UserServiceInterface,
-              private router: Router) {
+              private router: Router, private errorService: ErrorService) {
   }
 
   ngOnInit() {
@@ -30,7 +31,8 @@ export class UserListComponent implements OnInit {
         .toPromise()
         .then(() => {
           this.users = this.users.filter(usr => usr.key !== user.key);
-        });
+        })
+        .catch(errorMessage => this.errorService.logError(errorMessage));
   }
 
   openUserDetails(user: User): void {
