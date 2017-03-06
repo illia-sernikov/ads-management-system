@@ -13,6 +13,7 @@ import {
 } from './component';
 import { AuthAdminGuard, AuthGuard, AuthOperatorGuard, AuthPublisherGuard } from './guards';
 import { AmsHttp, ApplicationService, AuthService, OperatorService, UserService } from './service';
+import { ErrorService } from './service/error.service';
 
 export function httpFactory(backend: XHRBackend, options: RequestOptions) {
   return new AmsHttp(backend, options);
@@ -50,6 +51,7 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions) {
     OperatorService,
     ApplicationService,
     AuthService,
+    ErrorService,
 
     AuthGuard,
     AuthAdminGuard,
