@@ -15,6 +15,13 @@
   </div>
 </md-toolbar>
 
+<div *ngIf="error" class="error">
+  <div class="error__message">{{ error }}</div>
+  <button type="button" md-icon-button (click)="closeErrorMessage()">
+    <md-icon>close</md-icon>
+  </button>
+</div>
+
 <main class="content-container">
   <router-outlet></router-outlet>
 </main>
