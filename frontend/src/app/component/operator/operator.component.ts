@@ -6,7 +6,7 @@ import { ApplicationService, OperatorService, UserServiceInterface } from '../..
 @Component({
   selector: 'ams-operator',
   templateUrl: './operator.component.html',
-  styleUrls: ['./operator.component.css'],
+  styleUrls: ['./operator.component.scss'],
   providers: [
     {
       provide: UserServiceInterface,

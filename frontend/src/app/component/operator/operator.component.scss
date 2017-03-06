@@ -1,0 +1,9 @@
+.tab-group {
+  width: 1080px;
+
+  &__tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

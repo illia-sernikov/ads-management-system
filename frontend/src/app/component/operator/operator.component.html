@@ -1,16 +1,20 @@
-<md-tab-group>
+<md-tab-group class="tab-group">
   <md-tab label="Publishers">
-    <ams-create-user-form [userRoles]="userRoles" (onUserCreated)="onOperatorCreated($event)">
-    </ams-create-user-form>
+    <div class="tab-group__tab">
+      <ams-create-user-form [userRoles]="userRoles" (onUserCreated)="onOperatorCreated($event)">
+      </ams-create-user-form>
 
-    <ams-user-list [users]="publishers"></ams-user-list>
+      <ams-user-list [users]="publishers"></ams-user-list>
+    </div>
   </md-tab>
 
   <md-tab label="Applications">
-    <ams-create-application-form [publishers]="publishers"
-                                 (onApplicationCreated)="onApplicationCreated($event)">
-    </ams-create-application-form>
+    <div class="tab-group__tab">
+      <ams-create-application-form [publishers]="publishers"
+                                   (onApplicationCreated)="onApplicationCreated($event)">
+      </ams-create-application-form>
 
-    <ams-application-list [applications]="applications"></ams-application-list>
+      <ams-application-list [applications]="applications"></ams-application-list>
+    </div>
   </md-tab>
 </md-tab-group>
