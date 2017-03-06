@@ -1,6 +1,6 @@
 <div class="users-list">
   <md-card *ngFor="let user of users" class="users-list__item user-card">
-    <md-card-content (click)="openUserDetails(user)">
+    <md-card-content class="user-card__content" (click)="openUserDetails(user)">
       <div class="user-card__labels label">
         <span class="label__name">Name:</span>
         <span class="label__value">{{ user.name }}</span>
