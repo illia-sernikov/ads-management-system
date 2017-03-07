@@ -56,6 +56,6 @@ export class AmsHttp extends Http {
   private handleError(response: Response) {
     const error = response.json();
     console.error(error.message, error);
-    return Observable.throw(error.message);
+    return Observable.throw(error);
   }
 }

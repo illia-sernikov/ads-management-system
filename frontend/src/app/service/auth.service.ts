@@ -8,6 +8,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { BASE_API_URL } from '../constants';
 import { User } from '../domain';
+import { Error } from '../domain/error.interface';
+import { ErrorService } from './error.service';
 
 const SIGNIN_API_URL = `${BASE_API_URL}/auth/signin`;
 
@@ -19,7 +21,8 @@ export class AuthService {
 
   private userSubject: BehaviorSubject<User> = new BehaviorSubject(null);
 
-  constructor(private http: Http, private router: Router) {
+  constructor(private http: Http, private router: Router,
+              private errorService: ErrorService) {
     this.signInAtStartUp();
   }
 
@@ -47,6 +50,11 @@ export class AuthService {
 
           this.userSubject.next(account);
           this.redirectToUserHome(account);
+        })
+        .catch((error: Error) => {
+          if (error.status === 401) {
+            this.errorService.logError('Wrong email or password');
+          }
         });
 
     return this.getUserStream();
