@@ -40,4 +40,8 @@ export class UserListComponent implements OnInit {
       this.router.navigate(['/publisher', user.key]);
     }
   }
+
+  shouldShowActionButtons(user: User): boolean {
+    return isPresent(user) && user.role !== 'ADMIN';
+  }
 }

@@ -17,7 +17,7 @@
       </div>
     </md-card-content>
 
-    <md-card-actions class="user-card__buttons">
+    <md-card-actions *ngIf="shouldShowActionButtons(user)" class="user-card__buttons">
       <button type="button" md-raised-button [color]="'primary'" (click)="onEditUser(user)">
         <md-icon>edit</md-icon>
         Edit
