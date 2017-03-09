@@ -1,6 +1,7 @@
 package ua.sernikov.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import ua.sernikov.domain.User;
 import ua.sernikov.domain.UserRole;
@@ -18,26 +19,31 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATOR')")
     public User createPublisher(String name, String email) {
         return userService.createUser(name, email, UserRole.PUBLISHER);
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATOR')")
     public List<User> getAllPublishers() {
         return userService.getAllUsersByRole(UserRole.PUBLISHER);
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('OPERATOR', 'PUBLISHER')")
     public User getPublisherByKey(String publisherKey) {
         return userService.getUserByKey(publisherKey);
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATOR')")
     public void deletePublisherByKey(String publisherKey) {
         userService.deleteUserByKey(publisherKey);
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATOR')")
     public User updatePublisher(User publisher) {
         return userService.updateUser(publisher);
     }

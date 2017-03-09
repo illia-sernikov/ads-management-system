@@ -1,7 +1,7 @@
 package ua.sernikov.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Secured({"ROLE_ADMIN", "ROLE_OPERATOR"})
+    @PreAuthorize("hasAnyRole('ADMIN', 'OPERATOR')")
     public User createUser(String name, String email, UserRole role) {
         Assert.hasText(email, "Email should be specified");
 

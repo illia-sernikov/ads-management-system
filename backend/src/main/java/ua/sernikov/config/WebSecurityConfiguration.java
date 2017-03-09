@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private UserDetailsService userDetailsService;
@@ -34,9 +34,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
             .antMatchers(HttpMethod.OPTIONS).permitAll()
             .antMatchers("/auth/**").permitAll()
-            .antMatchers("/users/**", "/operators/**").hasRole("ADMIN")
-            .antMatchers("/publishers/**").hasRole("OPERATOR")
-            .antMatchers("/applications/**").hasAnyRole("OPERATOR", "PUBLISHER")
+            .antMatchers("/users/**").hasRole("ADMIN")
             .and()
             .httpBasic()
             .and()

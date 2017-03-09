@@ -1,6 +1,7 @@
 package ua.sernikov.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ua.sernikov.domain.Application;
@@ -27,12 +28,14 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    @PreAuthorize("hasRole('OPERATOR')")
     public List<Application> getAllApplications() {
         return applicationRepository.findAll().stream()
                                     .collect(Collectors.toList());
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('OPERATOR', 'PUBLISHER')")
     public List<Application> getAllPublisherApplications(String publisherKey) {
         Assert.hasText(publisherKey);
         return applicationRepository.findAllByOwnerKey(publisherKey).stream()
@@ -40,12 +43,14 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('OPERATOR', 'PUBLISHER')")
     public Application getApplicationByKey(String applicationKey) {
         Assert.hasText(applicationKey);
         return applicationRepository.findByKey(applicationKey).orElse(null);
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('OPERATOR', 'PUBLISHER')")
     public Application createApplication(NewApplicationRequest applicationRequest) {
         Assert.notNull(applicationRequest);
 
@@ -64,12 +69,14 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasAnyRole('OPERATOR', 'PUBLISHER')")
     public Application updateApplication(Application application) {
         throw new UnsupportedOperationException("Update not implemented yet");
     }
 
     @Override
     @Transactional
+    @PreAuthorize("hasAnyRole('OPERATOR', 'PUBLISHER')")
     public Long deleteApplication(String applicationKey) {
         Assert.hasText(applicationKey);
         return this.applicationRepository.deleteByKey(applicationKey);
