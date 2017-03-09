@@ -1,7 +1,7 @@
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
 import { Observable } from 'rxjs/Observable';
 import { BASE_API_URL } from '../constants';
 import { User } from '../domain';
@@ -26,7 +26,17 @@ export class UserService implements UserServiceInterface {
   }
 
   update(user: User): Observable<User> {
-    const url = `${USERS_API_URL}/${user.key}`;
+    let userTypePart;
+    switch (user.role) {
+      case 'OPERATOR':
+        userTypePart = 'operators';
+        break;
+      case 'PUBLISHER':
+        userTypePart = 'publishers';
+        break;
+    }
+
+    const url = `${BASE_API_URL}/${userTypePart}/${user.key}`;
 
     return this.http.put(url, user)
                .map(response => response.json() as User);

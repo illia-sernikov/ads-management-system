@@ -1,5 +1,5 @@
-<md-card class="user-card">
-  <md-card-content class="user-card__content" (click)="openUserDetails()">
+<md-card *ngIf="!editable" class="user-card">
+  <md-card-content class="user-card__content" (click)="openDetails()">
     <div class="user-card__labels label">
       <span class="label__name">Name:</span>
       <span class="label__value">{{ user.name }}</span>
@@ -17,14 +17,40 @@
   </md-card-content>
 
   <md-card-actions *ngIf="shouldShowActionButtons()" class="user-card__buttons">
-    <button type="button" md-raised-button [color]="'primary'" (click)="onEditUser()">
+    <button type="button" md-button [color]="'primary'" (click)="onEdit()">
       <md-icon>edit</md-icon>
       Edit
     </button>
 
-    <button type="button" md-raised-button [color]="'warn'" (click)="onDeleteUser()">
+    <button type="button" md-button [color]="'warn'" (click)="onDelete()">
       <md-icon>delete</md-icon>
       Delete
     </button>
   </md-card-actions>
+</md-card>
+
+<md-card *ngIf="editable" class="user-card">
+  <form #userForm="ngForm" (ngSubmit)="onUpdate(userForm)">
+    <md-card-content class="user-card__content">
+      <md-input-container>
+        <input type="text" placeholder="Name" md-input [ngModel]="user.name" name="name"
+               required minlength="3" maxlength="50"/>
+      </md-input-container>
+
+      <md-input-container>
+        <input type="email" placeholder="Email" md-input [ngModel]="user.email" name="email"
+               required maxlength="50"/>
+      </md-input-container>
+    </md-card-content>
+
+    <md-card-actions class="user-card__buttons">
+      <button type="submit" md-button [color]="'primary'">
+        Update
+      </button>
+
+      <button type="button" md-button (click)="onCancelUpdate()">
+        Cancel
+      </button>
+    </md-card-actions>
+  </form>
 </md-card>
