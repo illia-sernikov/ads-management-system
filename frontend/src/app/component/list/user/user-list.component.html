@@ -1,32 +1,5 @@
 <div class="users-list">
-  <md-card *ngFor="let user of users" class="users-list__item user-card">
-    <md-card-content class="user-card__content" (click)="openUserDetails(user)">
-      <div class="user-card__labels label">
-        <span class="label__name">Name:</span>
-        <span class="label__value">{{ user.name }}</span>
-      </div>
-
-      <div class="user-card__labels label">
-        <span class="label__name">Email:</span>
-        <span class="label__value">{{ user.email }}</span>
-      </div>
-
-      <div class="user-card__labels label">
-        <span class="label__name">Role:</span>
-        <span class="label__value">{{ user.role }}</span>
-      </div>
-    </md-card-content>
-
-    <md-card-actions *ngIf="shouldShowActionButtons(user)" class="user-card__buttons">
-      <button type="button" md-raised-button [color]="'primary'" (click)="onEditUser(user)">
-        <md-icon>edit</md-icon>
-        Edit
-      </button>
-
-      <button type="button" md-raised-button [color]="'warn'" (click)="onDeleteUser(user)">
-        <md-icon>delete</md-icon>
-        Delete
-      </button>
-    </md-card-actions>
-  </md-card>
+  <ams-user class="users-list__item" *ngFor="let user of users" [user]="user"
+            (onDelete)="onDeleteUser($event)">
+  </ams-user>
 </div>

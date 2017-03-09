@@ -1,0 +1,32 @@
+.user-card {
+  width: 300px;
+
+  &__content:hover {
+    cursor: pointer;
+  }
+
+  &__labels {
+    font-size: 18px;
+    padding: {
+      left: 50px;
+      bottom: 15px;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-around;
+  }
+}
+
+.label {
+  display: flex;
+
+  &__name {
+    flex-basis: 80px;
+  }
+
+  &__value {
+    font-style: italic;
+  }
+}

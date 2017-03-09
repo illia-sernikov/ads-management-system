@@ -1,7 +1,5 @@
+import { Component, Inject, Input } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-import { Component, Inject, Input, OnInit } from '@angular/core';
-import { isPresent } from '@angular/core/src/facade/lang';
-import { Router } from '@angular/router';
 import { User } from '../../../domain';
 import { UserServiceInterface } from '../../../service';
 import { ErrorService } from '../../../service/error.service';
@@ -11,19 +9,12 @@ import { ErrorService } from '../../../service/error.service';
   templateUrl: 'user-list.component.html',
   styleUrls: ['user-list.component.scss']
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent {
 
   @Input() users: User[] = [];
 
   constructor(@Inject(UserServiceInterface) private userService: UserServiceInterface,
-              private router: Router, private errorService: ErrorService) {
-  }
-
-  ngOnInit() {
-  }
-
-  onEditUser(user: User): void {
-    console.error('Not implemented yet');
+              private errorService: ErrorService) {
   }
 
   onDeleteUser(user: User): void {
@@ -33,15 +24,5 @@ export class UserListComponent implements OnInit {
           this.users = this.users.filter(usr => usr.key !== user.key);
         })
         .catch(errorMessage => this.errorService.logError(errorMessage));
-  }
-
-  openUserDetails(user: User): void {
-    if (isPresent(user) && user.role === 'PUBLISHER') {
-      this.router.navigate(['/publisher', user.key]);
-    }
-  }
-
-  shouldShowActionButtons(user: User): boolean {
-    return isPresent(user) && user.role !== 'ADMIN';
   }
 }

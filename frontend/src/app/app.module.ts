@@ -1,15 +1,15 @@
-import 'hammerjs';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Http, HttpModule, RequestOptions, XHRBackend } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
+import 'hammerjs';
 
 import { AppComponent } from './app.component';
 import { AppRouterModule } from './app.router';
 import {
   AdminComponent, ApplicationListComponent, CreateApplicationFormComponent, CreateUserFormComponent, ErrorComponent, LoginFormComponent,
-  OperatorComponent, PublisherComponent, UserListComponent
+  OperatorComponent, PublisherComponent, UserComponent, UserListComponent
 } from './component';
 import { AuthAdminGuard, AuthGuard, AuthOperatorGuard, AuthPublisherGuard } from './guards';
 import { AmsHttp, ApplicationService, AuthService, OperatorService, UserService } from './service';
@@ -32,6 +32,7 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions) {
     ApplicationListComponent,
     PublisherComponent,
     LoginFormComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
