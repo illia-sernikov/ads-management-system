@@ -1,5 +1,6 @@
 package ua.sernikov.service;
 
+import ua.sernikov.domain.UpdateUserRequest;
 import ua.sernikov.domain.User;
 
 import java.util.List;
@@ -14,5 +15,5 @@ public interface PublisherService {
 
     void deletePublisherByKey(String publisherKey);
 
-    User updatePublisher(User publisher);
+    User updatePublisher(UpdateUserRequest updatePublisherRequest);
 }

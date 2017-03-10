@@ -1,5 +1,6 @@
 package ua.sernikov.service;
 
+import ua.sernikov.domain.UpdateUserRequest;
 import ua.sernikov.domain.User;
 
 import java.util.List;
@@ -14,5 +15,5 @@ public interface OperatorService {
 
     void deleteOperatorByKey(String operatorKey);
 
-    User updateOperator(User operator);
+    User updateOperator(UpdateUserRequest updateOperatorRequest);
 }

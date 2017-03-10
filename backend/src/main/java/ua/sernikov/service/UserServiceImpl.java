@@ -1,11 +1,13 @@
 package ua.sernikov.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ua.sernikov.domain.NewUserRequest;
+import ua.sernikov.domain.UpdateUserRequest;
 import ua.sernikov.domain.User;
 import ua.sernikov.domain.UserRole;
 import ua.sernikov.exception.UserAlreadyExistException;
@@ -85,16 +87,36 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User updateUser(User user) {
-        Assert.notNull(user);
+    public User updateUser(UpdateUserRequest updateUserRequest) {
+        Assert.notNull(updateUserRequest);
 
-        if (!isUserExists(user.getEmail())) {
-            throw new UserNotFoundException("User with email " + user.getEmail() + " not found");
+        User existingUser = this.getUserByKey(updateUserRequest.getKey());
+
+        if (existingUser == null) {
+            throw new UserNotFoundException("User with email " + updateUserRequest.getEmail() + " not found");
         }
 
-        userRepository.updateByKey(user.getName(), user.getEmail(), user.getKey());
+        if (StringUtils.isNoneBlank(updateUserRequest.getName())) {
+            existingUser.setName(updateUserRequest.getName());
+        }
 
-        return user;
+        if (StringUtils.isNoneBlank(updateUserRequest.getEmail())) {
+            String email = updateUserRequest.getEmail();
+            this.userRepository.findByEmail(email).ifPresent(user -> {
+                if (!user.getKey().equals(existingUser.getKey())) {
+                    throw new UserAlreadyExistException("User with email " + email + " is already exist");
+                }
+            });
+
+            existingUser.setEmail(updateUserRequest.getEmail());
+        }
+
+        if (StringUtils.isNoneBlank(updateUserRequest.getPassword())) {
+            String passwd = BCrypt.hashpw(updateUserRequest.getPassword(), BCrypt.gensalt());
+            existingUser.setPassword(passwd);
+        }
+
+        return userRepository.save(existingUser);
     }
 
     private boolean isUserExists(String email) {

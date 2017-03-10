@@ -3,6 +3,7 @@ package ua.sernikov.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import ua.sernikov.domain.UpdateUserRequest;
 import ua.sernikov.domain.User;
 import ua.sernikov.domain.UserRole;
 
@@ -44,7 +45,7 @@ public class OperatorServiceImpl implements OperatorService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public User updateOperator(User operator) {
-        return userService.updateUser(operator);
+    public User updateOperator(UpdateUserRequest updateOperatorRequest) {
+        return userService.updateUser(updateOperatorRequest);
     }
 }

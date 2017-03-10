@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
+import ua.sernikov.domain.UpdateUserRequest;
 import ua.sernikov.domain.User;
 import ua.sernikov.domain.UserRole;
 import ua.sernikov.exception.UserAlreadyExistException;
@@ -162,16 +163,18 @@ public class UserServiceTest {
     @Test
     public void updateUser_ShouldUpdateOnlyNameAndEmail() throws Exception {
         doAnswer(returnsFirstArg()).when(userRepositoryMock).save(any(User.class));
-        when(userRepositoryMock.findByEmail(anyString())).thenReturn(Optional.empty())
-                                                         .thenReturn(Optional.of(mock(User.class)));
+        when(userRepositoryMock.findByEmail(anyString())).thenReturn(Optional.empty());
 
         String expectedName = "new_test";
         String expectedEmail = expectedName + "@mail.com";
-        User operator = userService.createUser(TEST_NAME, TEST_EMAIL, UserRole.OPERATOR);
-        operator.setName(expectedName);
-        operator.setEmail(expectedEmail);
 
-        User actualOperator = userService.updateUser(operator);
+        User operator = userService.createUser(TEST_NAME, TEST_EMAIL, UserRole.OPERATOR);
+        when(userRepositoryMock.findByKey(operator.getKey())).thenReturn(Optional.of(operator));
+        when(userRepositoryMock.findByEmail(operator.getKey())).thenReturn(Optional.of(operator));
+
+        UpdateUserRequest updateRequest = new UpdateUserRequest(operator.getKey(), expectedName, expectedEmail);
+
+        User actualOperator = userService.updateUser(updateRequest);
 
         assertThat(actualOperator).isNotNull()
                                   .isEqualTo(operator);
@@ -190,9 +193,10 @@ public class UserServiceTest {
 
     @Test(expected = UserNotFoundException.class)
     public void updateUser_ShouldThrowUserNotFoundException_WhenUserDoesNotExist() throws Exception {
-        when(userRepositoryMock.findByEmail(TEST_EMAIL)).thenReturn(Optional.empty());
-        User user = new User(TEST_NAME, TEST_EMAIL, UserRole.OPERATOR);
+        String userKey = UUID.randomUUID().toString();
+        when(userRepositoryMock.findByKey(userKey)).thenReturn(Optional.empty());
+        UpdateUserRequest updateRequest = new UpdateUserRequest(userKey, TEST_NAME, TEST_EMAIL);
 
-        userService.updateUser(user);
+        userService.updateUser(updateRequest);
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+import ua.sernikov.domain.UpdateUserRequest;
 import ua.sernikov.domain.User;
 import ua.sernikov.service.PublisherService;
 
@@ -39,11 +40,12 @@ public class PublisherController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "{key}")
-    public User updatePublisher(@PathVariable("key") String publisherKey, @RequestBody User publisher) {
+    public User updatePublisher(@PathVariable("key") String publisherKey, @RequestBody UpdateUserRequest updatePublisherRequest) {
         Assert.hasText(publisherKey);
-        Assert.notNull(publisher);
-        publisher.setKey(publisherKey);
-        return publisherService.updatePublisher(publisher);
+        Assert.notNull(updatePublisherRequest);
+
+        updatePublisherRequest.setKey(publisherKey);
+        return publisherService.updatePublisher(updatePublisherRequest);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "{key}")

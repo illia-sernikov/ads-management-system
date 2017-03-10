@@ -1,6 +1,7 @@
 package ua.sernikov.service;
 
 import ua.sernikov.domain.NewUserRequest;
+import ua.sernikov.domain.UpdateUserRequest;
 import ua.sernikov.domain.User;
 import ua.sernikov.domain.UserRole;
 
@@ -20,5 +21,5 @@ public interface UserService {
 
     Long deleteUserByKey(String userKey);
 
-    User updateUser(User user);
+    User updateUser(UpdateUserRequest user);
 }

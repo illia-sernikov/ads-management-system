@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+import ua.sernikov.domain.UpdateUserRequest;
 import ua.sernikov.domain.User;
 import ua.sernikov.service.OperatorService;
 
@@ -39,11 +40,12 @@ public class OperatorController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "{key}")
-    public User updateOperator(@PathVariable("key") String operatorKey, @RequestBody User operator) {
+    public User updateOperator(@PathVariable("key") String operatorKey, @RequestBody UpdateUserRequest updateUserRequest) {
         Assert.hasText(operatorKey);
-        Assert.notNull(operator);
-        operator.setKey(operatorKey);
-        return operatorService.updateOperator(operator);
+        Assert.notNull(updateUserRequest);
+
+        updateUserRequest.setKey(operatorKey);
+        return operatorService.updateOperator(updateUserRequest);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "{key}")

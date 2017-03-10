@@ -40,12 +40,6 @@ public class AdminController {
         return userService.createUser(newUser);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "{key}")
-    public User updateUser(@PathVariable("key") String userKey, @RequestBody @Valid User user) {
-        user.setKey(userKey);
-        return userService.updateUser(user);
-    }
-
     @RequestMapping(method = RequestMethod.DELETE, value = "{key}")
     public void deleteUser(@PathVariable("key") String userKey) {
         Assert.hasText(userKey);
