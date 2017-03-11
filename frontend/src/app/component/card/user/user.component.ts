@@ -40,7 +40,10 @@ export class UserComponent implements OnInit {
     const updatedUser = Object.assign({}, this.user, userForm.value);
     this.userService.update(updatedUser)
         .take(1)
-        .subscribe(() => this.editModeEnabled = false);
+        .subscribe(user => {
+          this.user = user;
+          this.editModeEnabled = false;
+        });
   }
 
   onCancelUpdate(): void {
