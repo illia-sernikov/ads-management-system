@@ -1,8 +1,6 @@
 import { User } from './';
-
-export type AppType = 'ANDROID' | 'IOS' | 'WEBSITE';
-
-export type ContentType = 'VIDEO' | 'IMAGE' | 'HTML';
+import { AppType } from './application-type';
+import { ContentType } from './content-type';
 
 export interface ApplicationRequest {
   name: string;

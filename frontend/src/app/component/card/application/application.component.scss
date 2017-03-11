@@ -1,0 +1,55 @@
+.app-card {
+  width: 300px;
+
+  &__title {
+    display: flex;
+    font-size: 20px;
+  }
+
+  &__labels {
+    font-size: 18px;
+    padding: {
+      left: 50px;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-around;
+  }
+}
+
+.label {
+  display: flex;
+
+  &__name {
+    flex-basis: 80px;
+  }
+
+  &__value {
+    font-style: italic;
+  }
+}
+
+.app-types {
+  display: flex;
+  flex-direction: column;
+}
+
+.android {
+  background: #AED581;
+}
+
+.ios {
+  background: #B0BEC5;
+}
+
+.website {
+  background: #FFF176;
+}
+
+.form {
+  &__select {
+    margin-top: 20px;
+  }
+}

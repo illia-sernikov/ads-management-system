@@ -8,12 +8,11 @@ import 'hammerjs';
 import { AppComponent } from './app.component';
 import { AppRouterModule } from './app.router';
 import {
-  AdminComponent, ApplicationListComponent, CreateApplicationFormComponent, CreateUserFormComponent, ErrorComponent, LoginFormComponent,
-  OperatorComponent, PublisherComponent, UserComponent, UserListComponent
+  AdminComponent, ApplicationComponent, ApplicationListComponent, CreateApplicationFormComponent, CreateUserFormComponent, ErrorComponent,
+  LoginFormComponent, OperatorComponent, PublisherComponent, UserComponent, UserListComponent
 } from './component';
 import { AuthAdminGuard, AuthGuard, AuthOperatorGuard, AuthPublisherGuard } from './guards';
-import { AmsHttp, ApplicationService, AuthService, OperatorService, UserService } from './service';
-import { ErrorService } from './service/error.service';
+import { AmsHttp, ApplicationService, AuthService, ErrorService, OperatorService, UserService } from './service';
 
 export function httpFactory(backend: XHRBackend, options: RequestOptions) {
   return new AmsHttp(backend, options);
@@ -33,6 +32,7 @@ export function httpFactory(backend: XHRBackend, options: RequestOptions) {
     PublisherComponent,
     LoginFormComponent,
     UserComponent,
+    ApplicationComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,3 +7,4 @@ export { OperatorService } from './operator.service';
 export { ApplicationService } from './application.service';
 
 export { AuthService } from './auth.service';
+export { ErrorService } from './error.service';

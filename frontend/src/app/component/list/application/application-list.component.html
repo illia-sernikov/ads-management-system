@@ -1,43 +1,5 @@
 <div class="apps-list">
-  <md-card *ngFor="let app of applications" class="apps-list__item app-card" [ngClass]="app.type | lowercase">
-    <md-card-title class="app-card__title">
-      <md-icon *ngIf="app.type === 'WEBSITE'">web</md-icon>
-      <md-icon *ngIf="app.type === 'ANDROID'">phone_android</md-icon>
-      <md-icon *ngIf="app.type === 'IOS'">phone_iphone</md-icon>
-      {{ app.type }}
-    </md-card-title>
-
-    <md-card-content>
-      <div class="app-card__labels label">
-        <span class="label__name">Name:</span>
-        <span class="label__value">{{ app.name }}</span>
-      </div>
-
-      <div class="app-card__labels label">
-        <span class="label__name">Owner:</span>
-        <span class="label__value">{{ app.owner.name }}</span>
-      </div>
-
-      <div class="app-card__labels label">
-        <span class="label__name">Content:</span>
-        <div class="label__value app-types">
-          <span *ngFor="let type of app.contentTypes">
-            {{ type }}
-          </span>
-        </div>
-      </div>
-    </md-card-content>
-
-    <md-card-actions class="app-card__buttons">
-      <button type="button" md-raised-button [color]="'primary'" (click)="onEditApp(app)">
-        <md-icon>edit</md-icon>
-        Edit
-      </button>
-
-      <button type="button" md-raised-button [color]="'warn'" (click)="onDeleteApp(app)">
-        <md-icon>delete</md-icon>
-        Delete
-      </button>
-    </md-card-actions>
-  </md-card>
+  <ams-application class="apps-list__item" *ngFor="let app of applications" [application]="app"
+                   (onDeleteApplication)="onDeleteApp($event)">
+  </ams-application>
 </div>

@@ -1,8 +1,8 @@
-import 'rxjs/add/operator/toPromise';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MdCheckboxChange } from '@angular/material';
-import { Application, ApplicationRequest, AppType, ContentType, User } from '../../../domain';
+import 'rxjs/add/operator/toPromise';
+import { Application, APPLICATION_TYPES, ApplicationRequest, AppType, CONTENT_TYPES, ContentType, User } from '../../../domain';
 import { ApplicationService } from '../../../service';
 
 @Component({
@@ -16,8 +16,8 @@ export class CreateApplicationFormComponent {
   @Input() publisherKey: string;
   @Output() onApplicationCreated: EventEmitter<Application> = new EventEmitter();
 
-  appTypes: AppType[] = ['WEBSITE', 'ANDROID', 'IOS'];
-  contentTypes: ContentType[] = ['HTML', 'IMAGE', 'VIDEO'];
+  appTypes: AppType[] = APPLICATION_TYPES;
+  contentTypes: ContentType[] = CONTENT_TYPES;
 
   private selectedContentTypes: ContentType[] = [];
 

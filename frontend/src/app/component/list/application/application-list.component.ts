@@ -1,5 +1,5 @@
-import 'rxjs/add/operator/toPromise';
 import { Component, Input } from '@angular/core';
+import 'rxjs/add/operator/toPromise';
 import { Application } from '../../../domain';
 import { ApplicationService } from '../../../service';
 
@@ -13,10 +13,6 @@ export class ApplicationListComponent {
   @Input() applications: Application[] = [];
 
   constructor(private appService: ApplicationService) {
-  }
-
-  onEditApp(app: Application): void {
-    console.error('Not implemented yet');
   }
 
   onDeleteApp(app: Application): void {
