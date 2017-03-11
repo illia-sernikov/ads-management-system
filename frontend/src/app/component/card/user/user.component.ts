@@ -37,7 +37,7 @@ export class UserComponent implements OnInit {
   }
 
   onUpdate(userForm: NgForm): void {
-    const updatedUser = Object.assign(this.user, userForm.value);
+    const updatedUser = Object.assign({}, this.user, userForm.value);
     this.userService.update(updatedUser)
         .take(1)
         .subscribe(() => this.editModeEnabled = false);

@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/observable/throw';
 import { BASE_API_URL } from '../constants';
-import { User } from '../domain';
+import { Error, User } from '../domain';
+import { ErrorService } from './error.service';
 import { UserServiceInterface } from './user-service.interface';
 
 const USERS_API_URL = `${BASE_API_URL}/users`;
@@ -12,7 +15,7 @@ const USERS_API_URL = `${BASE_API_URL}/users`;
 @Injectable()
 export class UserService implements UserServiceInterface {
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private errorService: ErrorService) {
   }
 
   getAll(): Observable<User[]> {
@@ -22,7 +25,8 @@ export class UserService implements UserServiceInterface {
 
   create(user: User): Observable<User> {
     return this.http.post(USERS_API_URL, user)
-               .map(response => response.json() as User);
+               .map(response => response.json() as User)
+               .catch(error => this.handleError(error));
   }
 
   update(user: User): Observable<User> {
@@ -39,7 +43,8 @@ export class UserService implements UserServiceInterface {
     const url = `${BASE_API_URL}/${userTypePart}/${user.key}`;
 
     return this.http.put(url, user)
-               .map(response => response.json() as User);
+               .map(response => response.json() as User)
+               .catch(error => this.handleError(error));
   }
 
   delete(user: User): Observable<void> {
@@ -47,5 +52,10 @@ export class UserService implements UserServiceInterface {
 
     return this.http.delete(url)
                .map(response => undefined);
+  }
+
+  private handleError(error: Error) {
+    this.errorService.logError(error.message);
+    return Observable.throw(error);
   }
 }

@@ -25,12 +25,14 @@ export class AmsHttp extends Http {
 
   put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response | Error> {
     const opt = this.getUpdatedOptions(options);
-    return super.put(url, body, opt);
+    return super.put(url, body, opt)
+                .catch(this.handleError);
   }
 
   delete(url: string, options?: RequestOptionsArgs): Observable<Response | Error> {
     const opt = this.getUpdatedOptions(options);
-    return super.delete(url, opt);
+    return super.delete(url, opt)
+                .catch(this.handleError);
   }
 
   private getUpdatedOptions(options?: RequestOptionsArgs): RequestOptionsArgs {
