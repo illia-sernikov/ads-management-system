@@ -111,10 +111,10 @@ public class UserServiceImpl implements UserService {
             existingUser.setEmail(updateUserRequest.getEmail());
         }
 
-        if (StringUtils.isNoneBlank(updateUserRequest.getPassword())) {
-            String passwd = BCrypt.hashpw(updateUserRequest.getPassword(), BCrypt.gensalt());
-            existingUser.setPassword(passwd);
-        }
+//        if (StringUtils.isNoneBlank(updateUserRequest.getPassword())) {
+//            String passwd = BCrypt.hashpw(updateUserRequest.getPassword(), BCrypt.gensalt());
+//            existingUser.setPassword(passwd);
+//        }
 
         return userRepository.save(existingUser);
     }
