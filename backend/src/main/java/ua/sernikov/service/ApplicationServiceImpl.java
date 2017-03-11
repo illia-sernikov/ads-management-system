@@ -1,5 +1,6 @@
 package ua.sernikov.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -7,7 +8,9 @@ import org.springframework.util.Assert;
 import ua.sernikov.domain.Application;
 import ua.sernikov.domain.Application.ApplicationBuilder;
 import ua.sernikov.domain.NewApplicationRequest;
+import ua.sernikov.domain.UpdateApplicationRequest;
 import ua.sernikov.domain.User;
+import ua.sernikov.exception.ApplicationNotFoundException;
 import ua.sernikov.repository.ApplicationRepository;
 
 import javax.transaction.Transactional;
@@ -70,8 +73,22 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     @Transactional
     @PreAuthorize("hasAnyRole('OPERATOR', 'PUBLISHER')")
-    public Application updateApplication(Application application) {
-        throw new UnsupportedOperationException("Update not implemented yet");
+    public Application updateApplication(UpdateApplicationRequest updateRequest) {
+        Application existingApplication = getApplicationByKey(updateRequest.getKey());
+
+        if (existingApplication == null) {
+            throw new ApplicationNotFoundException("Application with key " + updateRequest.getKey() + " not found");
+        }
+
+        if (StringUtils.isNoneBlank(updateRequest.getName())) {
+            existingApplication.setName(updateRequest.getName());
+        }
+
+        if (updateRequest.getType() != null) {
+            existingApplication.setType(updateRequest.getType());
+        }
+
+        return applicationRepository.save(existingApplication);
     }
 
     @Override

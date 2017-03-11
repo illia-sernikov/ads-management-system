@@ -2,6 +2,7 @@ package ua.sernikov.service;
 
 import ua.sernikov.domain.Application;
 import ua.sernikov.domain.NewApplicationRequest;
+import ua.sernikov.domain.UpdateApplicationRequest;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface ApplicationService {
 
     Application createApplication(NewApplicationRequest newApplication);
 
-    Application updateApplication(Application application);
+    Application updateApplication(UpdateApplicationRequest updateRequest);
 
     Long deleteApplication(String applicationKey);
 }

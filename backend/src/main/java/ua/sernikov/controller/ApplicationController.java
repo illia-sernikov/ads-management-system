@@ -6,6 +6,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import ua.sernikov.domain.Application;
 import ua.sernikov.domain.NewApplicationRequest;
+import ua.sernikov.domain.UpdateApplicationRequest;
 import ua.sernikov.service.ApplicationService;
 
 import javax.validation.Valid;
@@ -47,9 +48,10 @@ public class ApplicationController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "{key}")
-    public Application updateApplication(@PathVariable("key") String applicationKey, @RequestBody @Valid Application application) {
+    public Application updateApplication(@PathVariable("key") String applicationKey, @RequestBody UpdateApplicationRequest applicationRequest) {
         Assert.hasText(applicationKey);
-        return applicationService.updateApplication(application);
+        applicationRequest.setKey(applicationKey);
+        return applicationService.updateApplication(applicationRequest);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "{key}")
